@@ -25,20 +25,15 @@ public class CustomerServlet extends HttpServlet {
         customerService = new CustomerServiceImpl();
     }
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        List<CustomerDTO> customers = new ArrayList<>();
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<CustomerDTO> customerDTOList = customerService.getAllCustomers();
 
-        customers.add(new CustomerDTO("C001", "Vimukthi", "Colombo", "0771234567", 120, LocalDate.now(), "vinidu@email.com"));
-        customers.add(new CustomerDTO("C002", "Kamal", "Galle", "0777654321", 80, LocalDate.now(), "kamal@email.com"));
-        customers.add(new CustomerDTO("C003", "Nimal", "Kandy", "0769876543", 95, LocalDate.now(), "nimal@email.com"));
-
-        req.setAttribute("customerList", customers);
+        req.setAttribute("customerList", customerDTOList);
         req.setAttribute("pageTitle", "Customer Management");
         req.setAttribute("body", "../customer/view-customer.jsp");
 
-        // Forward to JSP
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/layout/layout.jsp");
-        dispatcher.forward(req,resp);
+        req.getRequestDispatcher("/WEB-INF/views/layout/layout.jsp").forward(req, resp);
     }
 
     @Override
