@@ -45,4 +45,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerDAO.update(id, CustomerMapper.toEntity(customerDTO));
     }
 
+    @Override
+    public void deleteCustomer(String id) {
+        customerDAO.delete(id);
+    }
+
 }
