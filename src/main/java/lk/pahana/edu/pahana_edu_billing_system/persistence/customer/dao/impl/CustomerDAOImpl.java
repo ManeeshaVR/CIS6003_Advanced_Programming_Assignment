@@ -1,21 +1,21 @@
 package lk.pahana.edu.pahana_edu_billing_system.persistence.customer.dao.impl;
 
+import lk.pahana.edu.pahana_edu_billing_system.business.customer.mapper.CustomerMapper;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.model.Customer;
 import lk.pahana.edu.pahana_edu_billing_system.persistence.customer.dao.CustomerDAO;
 import lk.pahana.edu.pahana_edu_billing_system.util.db.DBConnection;
 import lk.pahana.edu.pahana_edu_billing_system.util.db.SqlQueries;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void save(Customer customer) {
         try (
-                Connection connection = DBConnection.getConnection();
+                Connection connection = DBConnection.getInstance().getConnection();
                 PreparedStatement pstm = connection.prepareStatement(SqlQueries.Customer.INSERT)
         ) {
             pstm.setString(1, customer.getCustomerId());
@@ -27,9 +27,26 @@ public class CustomerDAOImpl implements CustomerDAO {
             pstm.setString(7, customer.getEmail());
 
             pstm.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        List<Customer> customers = new ArrayList<>();
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Customer.FIND_ALL);
+                ResultSet rs = pstm.executeQuery()
+        ) {
+            while (rs.next()) {
+                customers.add(CustomerMapper.mapToCustomer(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return customers;
     }
 
 }
