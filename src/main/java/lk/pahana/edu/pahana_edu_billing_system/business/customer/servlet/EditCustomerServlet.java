@@ -35,4 +35,14 @@ public class EditCustomerServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/views/layout/layout.jsp").forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        CustomerDTO customerDTO = CustomerMapper.buildCustomerDTOFromRequest(req);
+
+        customerService.updateCustomer(id, customerDTO);
+
+        resp.sendRedirect(req.getContextPath() + "/customer");
+    }
+
 }
