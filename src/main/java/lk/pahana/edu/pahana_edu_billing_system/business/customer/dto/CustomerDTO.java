@@ -23,6 +23,66 @@ public class CustomerDTO {
         this.email = email;
     }
 
+    private CustomerDTO(Builder builder) {
+        this.customerId = builder.customerId;
+        this.name = builder.name;
+        this.address = builder.address;
+        this.mobileNumber = builder.mobileNumber;
+        this.unitsConsumed = builder.unitsConsumed;
+        this.registrationDate = builder.registrationDate;
+        this.email = builder.email;
+    }
+
+    //builder class
+    public static class Builder {
+        private String customerId;
+        private String name;
+        private String address;
+        private String mobileNumber;
+        private int unitsConsumed;
+        private LocalDate registrationDate;
+        private String email;
+
+        public Builder customerId(String customerId) {
+            this.customerId = customerId;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder address(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder mobileNumber(String mobileNumber) {
+            this.mobileNumber = mobileNumber;
+            return this;
+        }
+
+        public Builder unitsConsumed(int unitsConsumed) {
+            this.unitsConsumed = unitsConsumed;
+            return this;
+        }
+
+        public Builder registrationDate(LocalDate registrationDate) {
+            this.registrationDate = registrationDate;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public CustomerDTO build() {
+            return new CustomerDTO(this);
+        }
+    }
+
     public String getCustomerId() {
         return customerId;
     }
