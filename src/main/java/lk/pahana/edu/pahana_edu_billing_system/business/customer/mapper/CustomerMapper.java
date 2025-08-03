@@ -4,6 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.dto.CustomerDTO;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.model.Customer;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class CustomerMapper {
 
@@ -42,5 +45,17 @@ public class CustomerMapper {
                 .mobileNumber(req.getParameter("mobileNumber"))
                 .email(req.getParameter("email"))
                 .build();
+    }
+
+    public static Customer mapToCustomer(ResultSet rs) throws SQLException {
+        return new Customer(
+                rs.getString("customer_id"),
+                rs.getString("name"),
+                rs.getString("address"),
+                rs.getString("mobile_number"),
+                rs.getInt("units_consumed"),
+                rs.getDate("registration_date").toLocalDate(),
+                rs.getString("email")
+        );
     }
 }
