@@ -50,7 +50,8 @@
                     <td><%= customer.getRegistrationDate() %></td>
                     <td>
                         <div class="flex space-x-2">
-                            <a href="editCustomer?id=<%= customer.getCustomerId() %>" class="btn btn-sm btn-primary btn-outline">Edit</a>
+                            <a href="<%= request.getContextPath() %>/customer/edit?id=<%= customer.getCustomerId() %>"
+                               class="btn btn-sm btn-primary btn-outline">Edit</a>
                             <a href="deleteCustomer?id=<%= customer.getCustomerId() %>" class="btn btn-sm btn-secondary btn-outline">Delete</a>
                         </div>
                     </td>
