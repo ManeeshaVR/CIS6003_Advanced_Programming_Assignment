@@ -13,7 +13,7 @@ public class SqlQueries {
                 "SELECT * FROM customer";
 
         public static final String UPDATE =
-                "UPDATE customer SET name = ?, address = ?, mobile_number = ?, units_consumed = ?, registration_date = ?, email = ? WHERE customer_id = ?";
+                "UPDATE customer SET name = ?, address = ?, mobile_number = ?, email = ? WHERE customer_id = ?";
 
         public static final String DELETE =
                 "DELETE FROM customer WHERE customer_id = ?";
