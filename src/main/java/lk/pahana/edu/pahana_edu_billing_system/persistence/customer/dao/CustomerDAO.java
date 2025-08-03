@@ -12,4 +12,6 @@ public interface CustomerDAO {
 
     Customer findById(String id);
 
+    void update(String id, Customer customer);
+
 }

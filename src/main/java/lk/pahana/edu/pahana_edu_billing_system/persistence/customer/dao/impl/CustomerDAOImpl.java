@@ -67,4 +67,22 @@ public class CustomerDAOImpl implements CustomerDAO {
         return null;
     }
 
+    @Override
+    public void update(String id, Customer customer) {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Customer.UPDATE)
+        ) {
+            pstm.setString(1, customer.getName());
+            pstm.setString(2, customer.getAddress());
+            pstm.setString(3, customer.getMobileNumber());
+            pstm.setString(4, customer.getEmail());
+            pstm.setString(5, id);
+
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
