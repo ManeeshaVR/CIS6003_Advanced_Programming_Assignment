@@ -49,4 +49,22 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customers;
     }
 
+    @Override
+    public Customer findById(String id) {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Customer.FIND_BY_ID)
+        ) {
+            pstm.setString(1, id);
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    return CustomerMapper.mapToCustomer(rs);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
