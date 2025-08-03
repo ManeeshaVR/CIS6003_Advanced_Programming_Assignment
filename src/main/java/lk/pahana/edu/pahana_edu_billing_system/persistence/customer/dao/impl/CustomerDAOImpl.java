@@ -85,4 +85,17 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    @Override
+    public void delete(String id) {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Customer.DELETE)
+        ) {
+            pstm.setString(1, id);
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
