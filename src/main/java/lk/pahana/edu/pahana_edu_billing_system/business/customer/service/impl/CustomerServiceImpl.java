@@ -35,4 +35,9 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDTOList;
     }
 
+    @Override
+    public CustomerDTO getCustomerById(String id) {
+        return CustomerMapper.toDTO(customerDAO.findById(id));
+    }
+
 }
