@@ -3,13 +3,7 @@
 <div class="modal">
     <div class="modal-box w-11/12 max-w-lg">
         <h3 class="font-bold text-lg mb-4">Add New Customer</h3>
-        <form action="/customer/add" method="post" class="space-y-4">
-            <!-- Customer ID -->
-            <div class="form-control flex flex-col">
-                <label class="label" for="id">Customer ID</label>
-                <input id="id" name="id" type="text" placeholder="C001" class="input input-bordered" required />
-            </div>
-
+        <form action="<%= request.getContextPath() %>/customer" method="post" class="space-y-4">
             <!-- Name -->
             <div class="form-control flex flex-col">
                 <label class="label" for="name">Name</label>
