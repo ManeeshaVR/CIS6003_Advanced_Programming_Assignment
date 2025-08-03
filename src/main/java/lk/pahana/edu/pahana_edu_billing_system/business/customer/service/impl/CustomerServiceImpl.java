@@ -40,4 +40,9 @@ public class CustomerServiceImpl implements CustomerService {
         return CustomerMapper.toDTO(customerDAO.findById(id));
     }
 
+    @Override
+    public void updateCustomer(String id, CustomerDTO customerDTO) {
+        customerDAO.update(id, CustomerMapper.toEntity(customerDTO));
+    }
+
 }
