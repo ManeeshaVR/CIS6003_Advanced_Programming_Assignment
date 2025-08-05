@@ -16,6 +16,8 @@ import lk.pahana.edu.pahana_edu_billing_system.business.customer.mapper.Customer
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.CustomerService;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.impl.CustomerServiceImpl;
 
+import static lk.pahana.edu.pahana_edu_billing_system.util.validation.Validation.validateCustomerDTO;
+
 @WebServlet(name = "customer", urlPatterns = {"/customer"})
 public class CustomerServlet extends HttpServlet {
     CustomerService customerService;
@@ -40,7 +42,14 @@ public class CustomerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             CustomerDTO customerDTO = CustomerMapper.buildCustomerDTOFromRequest(req);
-            customerService.saveCustomer(customerDTO);
+            String validationError = validateCustomerDTO(customerDTO);
+
+            if (validationError == null) {
+                customerService.saveCustomer(customerDTO);
+                req.getSession().setAttribute("flash_success", "Customer created successfully!");
+            } else {
+                req.getSession().setAttribute("flash_error", validationError);
+            }
 
             resp.sendRedirect(req.getContextPath() + "/customer");
         } catch (Exception e) {

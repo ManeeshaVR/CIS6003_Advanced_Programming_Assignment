@@ -24,6 +24,9 @@ public class DeleteCustomerServlet extends HttpServlet {
         String id = req.getParameter("id");
         if (id != null && !id.isEmpty()) {
             customerService.deleteCustomer(id);
+            req.getSession().setAttribute("flash_success", "Customer deleted successfully!");
+        } else {
+            req.getSession().setAttribute("flash_error", "Missing or not a valid customer id!");
         }
         resp.sendRedirect(req.getContextPath() + "/customer");
     }
