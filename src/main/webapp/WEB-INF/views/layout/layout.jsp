@@ -19,5 +19,6 @@
     </div>
     <%@ include file="../partials/sidebar.jsp" %>
 </div>
+<%@ include file="../partials/toast.jsp" %>
 </body>
 </html>
