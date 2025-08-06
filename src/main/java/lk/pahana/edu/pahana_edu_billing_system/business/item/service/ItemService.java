@@ -10,4 +10,10 @@ public interface ItemService {
 
     void saveItem(ItemDTO item);
 
+    ItemDTO getItemByCode(String itemCode);
+
+    void updateItem(String itemCode, ItemDTO itemDTO);
+
+    void deleteItem(String itemCode);
+
 }
