@@ -18,7 +18,7 @@
             </a>
         </li>
         <li>
-            <a href="<%= request.getContextPath() %>/items" class="flex items-center p-3 rounded-lg transition-all
+            <a href="<%= request.getContextPath() %>/item" class="flex items-center p-3 rounded-lg transition-all
             <%= request.getRequestURI().startsWith("/item") ? "text-primary" : "" %>
                 focus:text-primary active:text-primary">
                 <i class="fa-solid fa-boxes-stacked mr-3 text-lg"></i>
