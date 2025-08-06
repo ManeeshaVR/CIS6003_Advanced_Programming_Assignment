@@ -31,5 +31,25 @@ public class ItemDAOImpl implements ItemDAO {
         return items;
     }
 
+    @Override
+    public void save(Item item) {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.INSERT)
+        ) {
+            pstm.setString(1, item.getItemCode());
+            pstm.setString(2, item.getItemName());
+            pstm.setString(3, item.getDescription());
+            pstm.setString(4, item.getCategory());
+            pstm.setDouble(5, item.getUnitPrice());
+            pstm.setInt(6, item.getStockQuantity());
+            pstm.setString(7, item.getPublisher());
+            pstm.setString(8, item.getAuthor());
+
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

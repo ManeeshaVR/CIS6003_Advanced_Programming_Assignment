@@ -8,4 +8,6 @@ public interface ItemDAO {
 
     List<Item> findAll();
 
+    void save(Item item);
+
 }
