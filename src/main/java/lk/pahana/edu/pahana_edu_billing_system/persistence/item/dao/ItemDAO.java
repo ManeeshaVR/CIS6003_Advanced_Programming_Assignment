@@ -10,4 +10,10 @@ public interface ItemDAO {
 
     void save(Item item);
 
+    Item findById(String itemCode);
+
+    void update(String itemCode, Item item);
+
+    void delete(String itemCode);
+
 }

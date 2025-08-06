@@ -52,4 +52,56 @@ public class ItemDAOImpl implements ItemDAO {
         }
     }
 
+    @Override
+    public Item findById(String itemCode) {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.FIND_BY_ID)
+        ) {
+            pstm.setString(1, itemCode);
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    return ItemMapper.mapToItem(rs);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void update(String itemCode, Item item) {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.UPDATE)
+        ) {
+            pstm.setString(1, item.getItemName());
+            pstm.setString(2, item.getDescription());
+            pstm.setString(3, item.getCategory());
+            pstm.setDouble(4, item.getUnitPrice());
+            pstm.setInt(5, item.getStockQuantity());
+            pstm.setString(6, item.getPublisher());
+            pstm.setString(7, item.getAuthor());
+            pstm.setString(8, itemCode);
+
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(String itemCode) {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.DELETE)
+        ) {
+            pstm.setString(1, itemCode);
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
