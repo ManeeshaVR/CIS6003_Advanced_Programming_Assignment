@@ -18,7 +18,6 @@
             <table class="table table-zebra table-md">
                 <thead>
                 <tr>
-                    <th>Code</th>
                     <th>Name</th>
                     <th>Category</th>
                     <th>Unit Price</th>
