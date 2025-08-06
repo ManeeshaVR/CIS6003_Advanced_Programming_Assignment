@@ -9,6 +9,7 @@ import lk.pahana.edu.pahana_edu_billing_system.persistence.item.dao.impl.ItemDAO
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemServiceImpl implements ItemService {
 
@@ -22,6 +23,12 @@ public class ItemServiceImpl implements ItemService {
             itemDTOS.add(ItemMapper.toDTO(item));
         }
         return itemDTOS;
+    }
+
+    @Override
+    public void saveItem(ItemDTO item) {
+        item.setItemCode(UUID.randomUUID().toString());
+        itemDAO.save(ItemMapper.toEntity(item));
     }
 
 }

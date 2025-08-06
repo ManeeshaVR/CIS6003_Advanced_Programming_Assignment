@@ -8,5 +8,6 @@ public interface ItemService {
 
     List<ItemDTO> getAllItems();
 
+    void saveItem(ItemDTO item);
 
 }
