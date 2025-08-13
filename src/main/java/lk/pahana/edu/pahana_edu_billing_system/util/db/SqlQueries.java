@@ -17,6 +17,9 @@ public class SqlQueries {
 
         public static final String DELETE =
                 "DELETE FROM customer WHERE customer_id = ?";
+
+        public static final String ADD_UNITS_CONSUMED =
+                "UPDATE customer SET units_consumed = units_consumed + ? WHERE customer_id = ?";
     }
 
     public static final class Item {
@@ -34,6 +37,9 @@ public class SqlQueries {
 
         public static final String DELETE =
                 "DELETE FROM item WHERE item_code = ?";
+
+        public static final String DEDUCT_QUANTITY =
+                "UPDATE item SET stock_quantity = stock_quantity - ? WHERE item_code = ?";
     }
 
     public static final class Order {
