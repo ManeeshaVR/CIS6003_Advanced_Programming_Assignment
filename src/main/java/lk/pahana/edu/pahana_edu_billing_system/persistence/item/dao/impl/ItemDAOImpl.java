@@ -126,4 +126,20 @@ public class ItemDAOImpl implements ItemDAO {
         }
     }
 
+    @Override
+    public int getCount() {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.COUNT)
+        ) {
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

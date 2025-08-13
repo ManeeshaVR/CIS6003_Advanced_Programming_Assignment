@@ -8,4 +8,6 @@ public interface OrderService {
 
     OrderDTO getLastOrder();
 
+    int getOrderCount();
+
 }

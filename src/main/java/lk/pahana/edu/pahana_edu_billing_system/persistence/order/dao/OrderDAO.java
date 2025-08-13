@@ -8,4 +8,6 @@ public interface OrderDAO {
 
     Order findLast();
 
+    int getCount();
+
 }

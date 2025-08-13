@@ -19,4 +19,6 @@ public interface ItemService {
 
     void deductItemQuantity(Map<String, Integer> itemQuantities);
 
+    int getItemCount();
+
 }

@@ -18,4 +18,6 @@ public interface CustomerService {
 
     void addUnitsConsumed(String id, int units);
 
+    int getCustomerCount();
+
 }

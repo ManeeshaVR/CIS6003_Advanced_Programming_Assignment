@@ -19,4 +19,6 @@ public interface ItemDAO {
 
     void deductQuantity(Map<String, Integer> itemQuantities);
 
+    int getCount();
+
 }

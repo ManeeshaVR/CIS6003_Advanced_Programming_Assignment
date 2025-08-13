@@ -55,4 +55,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerDAO.addUnitsConsumed(id, units);
     }
 
+    @Override
+    public int getCustomerCount() {
+        return customerDAO.getCount();
+    }
+
 }

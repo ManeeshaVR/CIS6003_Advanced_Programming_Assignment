@@ -52,4 +52,9 @@ public class ItemServiceImpl implements ItemService {
         itemDAO.deductQuantity(itemQuantities);
     }
 
+    @Override
+    public int getItemCount() {
+        return itemDAO.getCount();
+    }
+
 }

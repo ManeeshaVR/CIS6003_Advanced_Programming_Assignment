@@ -24,4 +24,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO getLastOrder() {
         return OrderMapper.toDTO(orderDAO.findLast());
     }
+
+    @Override
+    public int getOrderCount() {
+        return orderDAO.getCount();
+    }
 }
