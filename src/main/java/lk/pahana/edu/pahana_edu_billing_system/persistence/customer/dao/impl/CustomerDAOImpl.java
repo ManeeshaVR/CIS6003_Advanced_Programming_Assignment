@@ -98,4 +98,18 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    @Override
+    public void addUnitsConsumed(String id, int units) {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Customer.ADD_UNITS_CONSUMED)
+        ) {
+            pstm.setInt(1, units);
+            pstm.setString(2, id);
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
