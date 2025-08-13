@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ItemDAOImpl implements ItemDAO {
 
@@ -99,6 +100,27 @@ public class ItemDAOImpl implements ItemDAO {
         ) {
             pstm.setString(1, itemCode);
             pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deductQuantity(Map<String, Integer> itemQuantities) {
+        if (itemQuantities == null || itemQuantities.isEmpty()) {
+            return;
+        }
+
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.DEDUCT_QUANTITY)
+        ) {
+            for (Map.Entry<String, Integer> entry : itemQuantities.entrySet()) {
+                pstm.setInt(1, entry.getValue());
+                pstm.setString(2, entry.getKey());
+                pstm.addBatch();
+            }
+            pstm.executeBatch();
         } catch (Exception e) {
             e.printStackTrace();
         }

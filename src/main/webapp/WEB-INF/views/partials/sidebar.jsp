@@ -26,7 +26,7 @@
             </a>
         </li>
         <li>
-            <a href="<%= request.getContextPath() %>/orders" class="flex items-center p-3 rounded-lg transition-all
+            <a href="<%= request.getContextPath() %>/order" class="flex items-center p-3 rounded-lg transition-all
             <%= request.getRequestURI().contains("/order") ? "text-primary" : "" %>
                 focus:text-primary active:text-primary">
                 <i class="fa-solid fa-cart-shopping mr-3 text-lg"></i>

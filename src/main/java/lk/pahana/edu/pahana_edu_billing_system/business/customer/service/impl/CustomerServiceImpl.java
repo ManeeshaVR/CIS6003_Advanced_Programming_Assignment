@@ -50,4 +50,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerDAO.delete(id);
     }
 
+    @Override
+    public void addUnitsConsumed(String id, int units) {
+        customerDAO.addUnitsConsumed(id, units);
+    }
+
 }

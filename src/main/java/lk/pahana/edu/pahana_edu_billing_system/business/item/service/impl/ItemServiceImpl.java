@@ -9,6 +9,7 @@ import lk.pahana.edu.pahana_edu_billing_system.persistence.item.dao.impl.ItemDAO
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ItemServiceImpl implements ItemService {
@@ -44,6 +45,11 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void deleteItem(String itemCode) {
         itemDAO.delete(itemCode);
+    }
+
+    @Override
+    public void deductItemQuantity(Map<String, Integer> itemQuantities) {
+        itemDAO.deductQuantity(itemQuantities);
     }
 
 }
