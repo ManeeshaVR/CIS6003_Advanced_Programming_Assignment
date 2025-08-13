@@ -16,7 +16,9 @@ import lk.pahana.edu.pahana_edu_billing_system.business.order.service.impl.Order
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "order", urlPatterns = "/order")
 public class OrderServlet extends HttpServlet {
@@ -57,6 +59,9 @@ public class OrderServlet extends HttpServlet {
 
         List<OrderItemDTO> orderItems = new ArrayList<>();
 
+        Map<String, Integer> itemQuantity = new HashMap<>();
+        int totalQuantity = 0;
+
         int index = 0;
         while (true) {
             String code = req.getParameter("items[" + index + "].code");
@@ -77,6 +82,9 @@ public class OrderServlet extends HttpServlet {
                         .unitPrice(price)
                         .build();
 
+                itemQuantity.put(code, quantity);
+                totalQuantity += quantity;
+
                 orderItems.add(item);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -95,6 +103,8 @@ public class OrderServlet extends HttpServlet {
             boolean isOrderSaved = orderService.saveOrder(orderDTO);
             if (isOrderSaved) {
                 req.getSession().setAttribute("flash_success", "Order Placed successfully!");
+                itemService.deductItemQuantity(itemQuantity);
+                customerService.addUnitsConsumed(customerId, totalQuantity);
             } else {
                 req.getSession().setAttribute("flash_error", "Failed to place the order");
             }
