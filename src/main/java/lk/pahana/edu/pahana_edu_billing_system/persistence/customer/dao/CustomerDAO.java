@@ -20,4 +20,6 @@ public interface CustomerDAO {
 
     int getCount();
 
+    List<Customer> findTopCustomers();
+
 }

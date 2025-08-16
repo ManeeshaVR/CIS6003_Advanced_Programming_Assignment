@@ -20,4 +20,6 @@ public interface CustomerService {
 
     int getCustomerCount();
 
+    List<CustomerDTO> getTopCustomers();
+
 }

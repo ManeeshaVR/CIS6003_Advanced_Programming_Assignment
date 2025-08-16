@@ -57,4 +57,14 @@ public class ItemServiceImpl implements ItemService {
         return itemDAO.getCount();
     }
 
+    @Override
+    public List<ItemDTO> getTopItems() {
+        List<ItemDTO> itemDTOS = new ArrayList<>();
+        List<Item> itemList = itemDAO.findTopItems();
+        for (Item item : itemList) {
+            itemDTOS.add(ItemMapper.toDTO(item));
+        }
+        return itemDTOS;
+    }
+
 }

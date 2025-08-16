@@ -21,4 +21,6 @@ public interface ItemService {
 
     int getItemCount();
 
+    List<ItemDTO> getTopItems();
+
 }

@@ -60,4 +60,15 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDAO.getCount();
     }
 
+    @Override
+    public List<CustomerDTO> getTopCustomers() {
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        List<Customer> customerList = customerDAO.findTopCustomers();
+
+        for (Customer customer : customerList) {
+            customerDTOList.add(CustomerMapper.toDTO(customer));
+        }
+        return customerDTOList;
+    }
+
 }

@@ -142,4 +142,21 @@ public class ItemDAOImpl implements ItemDAO {
         }
         return 0;
     }
+
+    @Override
+    public List<Item> findTopItems() {
+        List<Item> topItems = new ArrayList<>();
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.FIND_TOP_ITEMS);
+                ResultSet rs = pstm.executeQuery()
+        ) {
+            while (rs.next()) {
+                topItems.add(ItemMapper.mapToItem(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return topItems;
+    }
 }

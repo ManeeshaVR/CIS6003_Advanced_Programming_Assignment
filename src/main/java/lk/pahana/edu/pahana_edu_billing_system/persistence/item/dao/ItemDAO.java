@@ -21,4 +21,6 @@ public interface ItemDAO {
 
     int getCount();
 
+    List<Item> findTopItems();
+
 }
