@@ -2,22 +2,30 @@ package lk.pahana.edu.pahana_edu_billing_system.business.order.dto;
 
 public class OrderItemDTO {
     private String itemCode;
+    private String itemName;
     private Integer quantity;
     private Double unitPrice;
 
     private OrderItemDTO(Builder builder) {
         this.itemCode = builder.itemCode;
+        this.itemName = builder.itemName;
         this.quantity = builder.quantity;
         this.unitPrice = builder.unitPrice;
     }
 
     public static class Builder {
         private String itemCode;
+        private String itemName;
         private Integer quantity;
         private Double unitPrice;
 
         public Builder itemCode(String itemCode) {
             this.itemCode = itemCode;
+            return this;
+        }
+
+        public Builder itemName(String itemName) {
+            this.itemName = itemName;
             return this;
         }
 
@@ -44,6 +52,14 @@ public class OrderItemDTO {
         this.itemCode = itemCode;
     }
 
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -64,6 +80,7 @@ public class OrderItemDTO {
     public String toString() {
         return "OrderItemDTO{" +
                 "itemCode='" + itemCode + '\'' +
+                ", itemName='" + itemName + '\'' +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 '}';

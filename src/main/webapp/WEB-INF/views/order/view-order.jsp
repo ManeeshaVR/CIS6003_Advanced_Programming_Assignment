@@ -127,7 +127,7 @@
                 <tbody>
                 <% for (OrderItemDTO item : lastOrder.getOrderItems()) { %>
                 <tr>
-                    <td><%= item.getItemCode() %></td>
+                    <td><%= item.getItemName() %></td>
                     <td><%= item.getQuantity() %></td>
                     <td>Rs. <%= String.format("%.2f", item.getUnitPrice()) %></td>
                     <td>Rs. <%= String.format("%.2f", item.getUnitPrice() * item.getQuantity()) %></td>
