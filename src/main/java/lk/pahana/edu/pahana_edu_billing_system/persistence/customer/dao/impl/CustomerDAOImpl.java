@@ -112,4 +112,37 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    @Override
+    public int getCount() {
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Customer.COUNT)
+        ) {
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public List<Customer> findTopCustomers() {
+        List<Customer> topCustomers = new ArrayList<>();
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Customer.FIND_TOP_CUSTOMERS);
+                ResultSet rs = pstm.executeQuery()
+        ) {
+            while (rs.next()) {
+                topCustomers.add(CustomerMapper.mapToCustomer(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return topCustomers;
+    }
 }

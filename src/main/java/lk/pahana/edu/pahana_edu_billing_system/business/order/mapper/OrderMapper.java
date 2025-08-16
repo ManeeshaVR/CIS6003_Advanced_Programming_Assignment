@@ -51,6 +51,7 @@ public class OrderMapper {
 
         return new OrderItemDTO.Builder()
                 .itemCode(item.getItemCode())
+                .itemName(item.getItemName())
                 .quantity(item.getQuantity())
                 .unitPrice(item.getUnitPrice())
                 .build();
@@ -83,6 +84,7 @@ public class OrderMapper {
         do {
             OrderItem item = new OrderItem();
             item.setItemCode(resultSet.getString("item_code"));
+            item.setItemName(resultSet.getString("item_name"));
             item.setQuantity(resultSet.getInt("quantity"));
             item.setUnitPrice(resultSet.getDouble("unit_price"));
             orderItems.add(item);

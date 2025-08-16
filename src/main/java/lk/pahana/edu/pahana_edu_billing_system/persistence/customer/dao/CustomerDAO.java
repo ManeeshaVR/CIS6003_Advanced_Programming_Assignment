@@ -18,4 +18,8 @@ public interface CustomerDAO {
 
     void addUnitsConsumed(String id, int units);
 
+    int getCount();
+
+    List<Customer> findTopCustomers();
+
 }
