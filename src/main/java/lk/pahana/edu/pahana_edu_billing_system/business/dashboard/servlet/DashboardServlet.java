@@ -5,10 +5,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.pahana.edu.pahana_edu_billing_system.business.customer.dto.CustomerDTO;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.CustomerService;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.impl.CustomerServiceImpl;
 import lk.pahana.edu.pahana_edu_billing_system.business.item.service.ItemService;
 import lk.pahana.edu.pahana_edu_billing_system.business.item.service.impl.ItemServiceImpl;
+import lk.pahana.edu.pahana_edu_billing_system.business.order.dto.OrderDTO;
 import lk.pahana.edu.pahana_edu_billing_system.business.order.service.OrderService;
 import lk.pahana.edu.pahana_edu_billing_system.business.order.service.impl.OrderServiceImpl;
 
@@ -33,6 +35,16 @@ public class DashboardServlet extends HttpServlet {
         int customerCount = customerService.getCustomerCount();
         int itemCount = itemService.getItemCount();
         int orderCount = orderService.getOrderCount();
+        OrderDTO lastOrder = orderService.getLastOrder();
+        CustomerDTO lastCustomer = null;
+        if (lastOrder != null) {
+            lastCustomer = customerService.getCustomerById(lastOrder.getCustomerId());
+        }
+        System.out.println("Top Items: " + itemService.getTopItems());
+        req.setAttribute("topCustomers", customerService.getTopCustomers());
+        req.setAttribute("topItems", itemService.getTopItems());
+        req.setAttribute("lastOrder", lastOrder);
+        req.setAttribute("lastOrderCustomer", lastCustomer);
 
         req.setAttribute("customerCount", customerCount);
         req.setAttribute("itemCount", itemCount);
