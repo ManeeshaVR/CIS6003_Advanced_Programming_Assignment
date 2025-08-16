@@ -23,6 +23,9 @@ public class SqlQueries {
 
         public static final String COUNT =
                 "SELECT COUNT(*) FROM customer";
+
+        public static final String FIND_TOP_CUSTOMERS =
+                "SELECT * FROM customer ORDER BY units_consumed DESC LIMIT 3";
     }
 
     public static final class Item {
@@ -46,6 +49,14 @@ public class SqlQueries {
 
         public static final String COUNT =
                 "SELECT COUNT(*) FROM item";
+
+        public static final String FIND_TOP_ITEMS =
+                "SELECT i.item_code, i.item_name, SUM(oi.quantity) AS stock_quantity\n" +
+                        "FROM item i\n" +
+                        "JOIN order_item oi ON i.item_code = oi.item_code\n" +
+                        "GROUP BY i.item_code, i.item_name\n" +
+                        "ORDER BY stock_quantity DESC\n" +
+                        "LIMIT 3\n";
     }
 
     public static final class Order {
