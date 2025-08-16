@@ -51,12 +51,19 @@ public class SqlQueries {
                 "SELECT COUNT(*) FROM item";
 
         public static final String FIND_TOP_ITEMS =
-                "SELECT i.item_code, i.item_name, SUM(oi.quantity) AS stock_quantity\n" +
-                        "FROM item i\n" +
-                        "JOIN order_item oi ON i.item_code = oi.item_code\n" +
-                        "GROUP BY i.item_code, i.item_name\n" +
-                        "ORDER BY stock_quantity DESC\n" +
-                        "LIMIT 3\n";
+                "SELECT i.item_code, " +
+                        "       i.item_name, " +
+                        "       i.category, " +
+                        "       i.description, " +
+                        "       i.unit_price, " +
+                        "       i.publisher, " +
+                        "       i.author, " +
+                        "       SUM(oi.quantity) AS stock_quantity " +
+                        "FROM item i " +
+                        "JOIN order_item oi ON i.item_code = oi.item_code " +
+                        "GROUP BY i.item_code, i.item_name, i.category, i.description, i.unit_price, i.publisher, i.author " +
+                        "ORDER BY stock_quantity DESC " +
+                        "LIMIT 3";
     }
 
     public static final class Order {
@@ -70,16 +77,18 @@ public class SqlQueries {
                         "    o.customer_id,\n" +
                         "    o.total_amount,\n" +
                         "    oi.item_code,\n" +
+                        "    i.item_name,\n" +
                         "    oi.quantity,\n" +
                         "    oi.unit_price\n" +
                         "FROM orders o\n" +
                         "JOIN order_item oi ON o.order_id = oi.order_id\n" +
+                        "JOIN item i ON oi.item_code = i.item_code\n" +
                         "WHERE o.order_id = (\n" +
                         "    SELECT order_id \n" +
                         "    FROM orders \n" +
                         "    ORDER BY order_date DESC, order_id DESC \n" +
                         "    LIMIT 1\n" +
-                        ");\n";
+                        ");";
 
         public static final String COUNT =
                 "SELECT COUNT(*) FROM orders";
