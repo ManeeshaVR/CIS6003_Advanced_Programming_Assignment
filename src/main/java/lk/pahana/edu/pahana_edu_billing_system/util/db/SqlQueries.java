@@ -99,4 +99,9 @@ public class SqlQueries {
                 "INSERT INTO order_item (order_id, item_code, quantity, unit_price) VALUES (?, ?, ?, ?)";
     }
 
+    public static final class User {
+        public static final String FIND_BY_USERNAME_AND_PASSWORD =
+                "SELECT * FROM user WHERE username = ? AND password = ?";
+    }
+
 }
