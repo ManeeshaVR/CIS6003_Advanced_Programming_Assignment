@@ -1,22 +1,22 @@
-package lk.pahana.edu.pahana_edu_billing_system.business.order.model;
+package lk.pahana.edu.pahana_edu_billing_system.business.bill.model;
 
-public class OrderItem {
+public class InvoiceItem {
 
     private String itemCode;
     private String itemName;
     private Integer quantity;
     private Double unitPrice;
 
-    public OrderItem() {}
+    public InvoiceItem() {}
 
-    public OrderItem(String itemCode, String itemName, Integer quantity, Double unitPrice) {
+    public InvoiceItem(String itemCode, String itemName, Integer quantity, Double unitPrice) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
     }
 
-    private OrderItem(Builder builder) {
+    private InvoiceItem(Builder builder) {
         this.itemCode = builder.itemCode;
         this.itemName = builder.itemName;
         this.quantity = builder.quantity;
@@ -49,8 +49,8 @@ public class OrderItem {
             return this;
         }
 
-        public OrderItem build() {
-            return new OrderItem(this);
+        public InvoiceItem build() {
+            return new InvoiceItem(this);
         }
     }
 
@@ -62,9 +62,13 @@ public class OrderItem {
         this.itemCode = itemCode;
     }
 
-    public String getItemName() { return itemName; }
+    public String getItemName() {
+        return itemName;
+    }
 
-    public void setItemName(String itemName) { this.itemName = itemName; }
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
     public Integer getQuantity() {
         return quantity;
@@ -84,11 +88,12 @@ public class OrderItem {
 
     @Override
     public String toString() {
-        return "OrderItem{" +
+        return "InvoiceItem{" +
                 "itemCode='" + itemCode + '\'' +
                 ", itemName='" + itemName + '\'' +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 '}';
     }
+
 }

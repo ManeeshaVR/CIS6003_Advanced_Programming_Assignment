@@ -1,14 +1,16 @@
 <%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.customer.dto.CustomerDTO" %>
-<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.order.dto.OrderDTO" %>
+<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.BillDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.item.dto.ItemDTO" %>
-<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.order.dto.OrderItemDTO" %>
+<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.BillItemDTO" %>
+<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.InvoiceDTO" %>
+<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.InvoiceItemDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     List<CustomerDTO> topCustomers = (List<CustomerDTO>) request.getAttribute("topCustomers");
     List<ItemDTO> topItems = (List<ItemDTO>) request.getAttribute("topItems");
-    OrderDTO lastOrder = (OrderDTO) request.getAttribute("lastOrder");
+    InvoiceDTO lastOrder = (InvoiceDTO) request.getAttribute("lastOrder");
     CustomerDTO lastOrderCustomer = (CustomerDTO) request.getAttribute("lastOrderCustomer");
 %>
 
@@ -48,7 +50,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <div class="text-3xl font-bold text-pink-500 mt-2 mb-2"><%= request.getAttribute("orderCount") %></div>
-                <span>Total Orders</span>
+                <span>Total Bills</span>
             </div>
             <div class="ml-auto">
                 <div class="w-16 h-16 rounded-lg flex items-center justify-center">
@@ -86,7 +88,7 @@
                     <p>
                         <i class="fa-solid fa-calendar-day text-gray-600 mr-2"></i>
                         <span class="font-semibold">Date:</span>
-                        <%= lastOrder != null ? lastOrder.getDate() : "N/A" %>
+                        <%= lastOrder != null ? lastOrder.getDate().toLocalDate() : "N/A" %>
                     </p>
                 </div>
 
@@ -94,8 +96,8 @@
                 <div class="w-full mt-3">
                     <ul class="space-y-2 text-left">
                         <%
-                            if (lastOrder != null && lastOrder.getOrderItems() != null) {
-                                for (OrderItemDTO item : lastOrder.getOrderItems()) {
+                            if (lastOrder != null && lastOrder.getBillItems() != null) {
+                                for (InvoiceItemDTO item : lastOrder.getBillItems()) {
                         %>
                         <li class="flex items-center gap-2 border-b pb-1">
                             <i class="fa-solid fa-box text-gray-600"></i>
@@ -116,7 +118,7 @@
                     </span>
                 </div>
                 <div class="card-actions justify-end mt-4">
-                    <a href="<%= request.getContextPath() %>/order" class="btn btn-outline <%= request.getRequestURI().contains("/order") ? "text-primary" : "" %>">View</a>
+                    <a href="<%= request.getContextPath() %>/bill" class="btn btn-outline <%= request.getRequestURI().contains("/bill") ? "text-primary" : "" %>">View</a>
                 </div>
             </div>
         </div>

@@ -1,12 +1,13 @@
-package lk.pahana.edu.pahana_edu_billing_system.business.order.dto;
+package lk.pahana.edu.pahana_edu_billing_system.business.bill.dto;
 
-public class OrderItemDTO {
+public class InvoiceItemDTO {
+
     private String itemCode;
     private String itemName;
     private Integer quantity;
     private Double unitPrice;
 
-    private OrderItemDTO(Builder builder) {
+    private InvoiceItemDTO(Builder builder) {
         this.itemCode = builder.itemCode;
         this.itemName = builder.itemName;
         this.quantity = builder.quantity;
@@ -39,8 +40,8 @@ public class OrderItemDTO {
             return this;
         }
 
-        public OrderItemDTO build() {
-            return new OrderItemDTO(this);
+        public InvoiceItemDTO build() {
+            return new InvoiceItemDTO(this);
         }
     }
 
@@ -78,11 +79,12 @@ public class OrderItemDTO {
 
     @Override
     public String toString() {
-        return "OrderItemDTO{" +
+        return "InvoiceItemDTO{" +
                 "itemCode='" + itemCode + '\'' +
                 ", itemName='" + itemName + '\'' +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 '}';
     }
+
 }

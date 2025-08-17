@@ -2,22 +2,18 @@
 <%@ page import="java.util.List" %>
 <%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.customer.dto.CustomerDTO" %>
 <%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.item.dto.ItemDTO" %>
-<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.order.dto.OrderItemDTO" %>
-<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.order.dto.OrderDTO" %>
 
 <%
     List<CustomerDTO> customers = (List<CustomerDTO>) request.getAttribute("customers");
     List<ItemDTO> items = (List<ItemDTO>) request.getAttribute("items");
-    OrderDTO lastOrder = (OrderDTO) request.getAttribute("lastOrder");
-    CustomerDTO lastOrderCustomer = (CustomerDTO) request.getAttribute("lastOrderCustomer");
 %>
 
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">Place Order</h1>
+    <h1 class="text-3xl font-bold">Create New Bill</h1>
     <div></div>
 </div>
 
-<form id="orderForm" action="<%= request.getContextPath() %>/order" method="post"
+<form id="orderForm" action="<%= request.getContextPath() %>/bill/create" method="post"
       class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
     <!-- Create New Bill Form -->
@@ -102,43 +98,6 @@
             <button type="button" class="btn btn-primary mt-6 w-full" onclick="submitOrder()">
                 <i class="fa-solid fa-cart-shopping"></i> Create Bill
             </button>
-        </div>
-
-        <!-- Recent Bills -->
-        <div class="bg-base-100 p-6 rounded-box shadow-lg">
-            <h3 class="text-lg font-semibold mb-2">Recent Bill</h3>
-
-            <% if (lastOrder != null && lastOrder.getOrderItems() != null && !lastOrder.getOrderItems().isEmpty()) { %>
-            <p class="mb-2 font-semibold">
-                Customer: <%= lastOrderCustomer != null ? lastOrderCustomer.getName() : "Unknown" %><br/>
-                Order Date: <%= lastOrder.getDate() %><br/>
-                Total: Rs. <%= String.format("%.2f", lastOrder.getTotalAmount()) %>
-            </p>
-
-            <table class="table table-zebra w-full text-sm">
-                <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Qty</th>
-                    <th>Unit Price</th>
-                    <th>Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                <% for (OrderItemDTO item : lastOrder.getOrderItems()) { %>
-                <tr>
-                    <td><%= item.getItemName() %></td>
-                    <td><%= item.getQuantity() %></td>
-                    <td>Rs. <%= String.format("%.2f", item.getUnitPrice()) %></td>
-                    <td>Rs. <%= String.format("%.2f", item.getUnitPrice() * item.getQuantity()) %></td>
-                </tr>
-                <% } %>
-                </tbody>
-            </table>
-
-            <% } else { %>
-            <p class="text-sm text-gray-400">No bills created yet</p>
-            <% } %>
         </div>
     </div>
 
