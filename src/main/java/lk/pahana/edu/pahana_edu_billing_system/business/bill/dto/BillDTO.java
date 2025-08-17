@@ -1,38 +1,38 @@
-package lk.pahana.edu.pahana_edu_billing_system.business.order.dto;
+package lk.pahana.edu.pahana_edu_billing_system.business.bill.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-public class OrderDTO {
+public class BillDTO {
 
-    private String orderId;
-    private List<OrderItemDTO> orderItems;
+    private String billId;
+    private List<BillItemDTO> billItems;
     private Double totalAmount;
     private String customerId;
-    private LocalDate date;
+    private LocalDateTime date;
 
-    private OrderDTO(Builder builder) {
-        this.orderId = builder.orderId;
-        this.orderItems = builder.orderItems;
+    private BillDTO(Builder builder) {
+        this.billId = builder.billId;
+        this.billItems = builder.billItems;
         this.totalAmount = builder.totalAmount;
         this.customerId = builder.customerId;
         this.date = builder.date;
     }
 
     public static class Builder {
-        private String orderId;
-        private List<OrderItemDTO> orderItems;
+        private String billId;
+        private List<BillItemDTO> billItems;
         private Double totalAmount;
         private String customerId;
-        private LocalDate date;
+        private LocalDateTime date;
 
-        public Builder setOrderId(String orderId) {
-            this.orderId = orderId;
+        public Builder setBillId(String billId) {
+            this.billId = billId;
             return this;
         }
 
-        public Builder setOrderItems(List<OrderItemDTO> orderItems) {
-            this.orderItems = orderItems;
+        public Builder setBillItems(List<BillItemDTO> billItems) {
+            this.billItems = billItems;
             return this;
         }
 
@@ -46,30 +46,30 @@ public class OrderDTO {
             return this;
         }
 
-        public Builder setDate(LocalDate date) {
+        public Builder setDate(LocalDateTime date) {
             this.date = date;
             return this;
         }
 
-        public OrderDTO build() {
-            return new OrderDTO(this);
+        public BillDTO build() {
+            return new BillDTO(this);
         }
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getBillId() {
+        return billId;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setBillId(String billId) {
+        this.billId = billId;
     }
 
-    public List<OrderItemDTO> getOrderItems() {
-        return orderItems;
+    public List<BillItemDTO> getBillItems() {
+        return billItems;
     }
 
-    public void setOrderItems(List<OrderItemDTO> orderItems) {
-        this.orderItems = orderItems;
+    public void setBillItems(List<BillItemDTO> billItems) {
+        this.billItems = billItems;
     }
 
     public Double getTotalAmount() {
@@ -88,19 +88,19 @@ public class OrderDTO {
         this.customerId = customerId;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
     @Override
     public String toString() {
-        return "OrderDTO{" +
-                "orderId='" + orderId + '\'' +
-                ", orderItems=" + orderItems +
+        return "BillDTO{" +
+                "billId='" + billId + '\'' +
+                ", billItems=" + billItems +
                 ", totalAmount=" + totalAmount +
                 ", customerId='" + customerId + '\'' +
                 ", date=" + date +

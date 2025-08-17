@@ -1,31 +1,32 @@
-package lk.pahana.edu.pahana_edu_billing_system.business.order.dto;
+package lk.pahana.edu.pahana_edu_billing_system.business.bill.model;
 
-public class OrderItemDTO {
+public class BillItem {
+
     private String itemCode;
-    private String itemName;
     private Integer quantity;
     private Double unitPrice;
 
-    private OrderItemDTO(Builder builder) {
+    public BillItem() {}
+
+    public BillItem(String itemCode, Integer quantity, Double unitPrice) {
+        this.itemCode = itemCode;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+    }
+
+    private BillItem(Builder builder) {
         this.itemCode = builder.itemCode;
-        this.itemName = builder.itemName;
         this.quantity = builder.quantity;
         this.unitPrice = builder.unitPrice;
     }
 
     public static class Builder {
         private String itemCode;
-        private String itemName;
         private Integer quantity;
         private Double unitPrice;
 
         public Builder itemCode(String itemCode) {
             this.itemCode = itemCode;
-            return this;
-        }
-
-        public Builder itemName(String itemName) {
-            this.itemName = itemName;
             return this;
         }
 
@@ -39,8 +40,8 @@ public class OrderItemDTO {
             return this;
         }
 
-        public OrderItemDTO build() {
-            return new OrderItemDTO(this);
+        public BillItem build() {
+            return new BillItem(this);
         }
     }
 
@@ -50,14 +51,6 @@ public class OrderItemDTO {
 
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
     }
 
     public Integer getQuantity() {
@@ -78,9 +71,8 @@ public class OrderItemDTO {
 
     @Override
     public String toString() {
-        return "OrderItemDTO{" +
+        return "OrderItem{" +
                 "itemCode='" + itemCode + '\'' +
-                ", itemName='" + itemName + '\'' +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 '}';

@@ -1,41 +1,23 @@
-package lk.pahana.edu.pahana_edu_billing_system.business.order.model;
+package lk.pahana.edu.pahana_edu_billing_system.business.bill.dto;
 
-public class OrderItem {
-
+public class BillItemDTO {
     private String itemCode;
-    private String itemName;
     private Integer quantity;
     private Double unitPrice;
 
-    public OrderItem() {}
-
-    public OrderItem(String itemCode, String itemName, Integer quantity, Double unitPrice) {
-        this.itemCode = itemCode;
-        this.itemName = itemName;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-    }
-
-    private OrderItem(Builder builder) {
+    private BillItemDTO(Builder builder) {
         this.itemCode = builder.itemCode;
-        this.itemName = builder.itemName;
         this.quantity = builder.quantity;
         this.unitPrice = builder.unitPrice;
     }
 
     public static class Builder {
         private String itemCode;
-        private String itemName;
         private Integer quantity;
         private Double unitPrice;
 
         public Builder itemCode(String itemCode) {
             this.itemCode = itemCode;
-            return this;
-        }
-
-        public Builder itemName(String itemName) {
-            this.itemName = itemName;
             return this;
         }
 
@@ -49,8 +31,8 @@ public class OrderItem {
             return this;
         }
 
-        public OrderItem build() {
-            return new OrderItem(this);
+        public BillItemDTO build() {
+            return new BillItemDTO(this);
         }
     }
 
@@ -61,10 +43,6 @@ public class OrderItem {
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
     }
-
-    public String getItemName() { return itemName; }
-
-    public void setItemName(String itemName) { this.itemName = itemName; }
 
     public Integer getQuantity() {
         return quantity;
@@ -84,9 +62,8 @@ public class OrderItem {
 
     @Override
     public String toString() {
-        return "OrderItem{" +
+        return "BillItemDTO{" +
                 "itemCode='" + itemCode + '\'' +
-                ", itemName='" + itemName + '\'' +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 '}';

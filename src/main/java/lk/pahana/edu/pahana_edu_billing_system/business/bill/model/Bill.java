@@ -1,49 +1,49 @@
-package lk.pahana.edu.pahana_edu_billing_system.business.order.model;
+package lk.pahana.edu.pahana_edu_billing_system.business.bill.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-public class Order {
+public class Bill {
 
-    private String orderId;
-    private List<OrderItem> orderItems;
+    private String billId;
+    private List<BillItem> billItems;
     private Double totalAmount;
     private String customerId;
-    private LocalDate date;
+    private LocalDateTime date;
 
-    public Order() {
+    public Bill() {
     }
 
-    public Order(String orderId, List<OrderItem> orderItems, Double totalAmount, String customerId, LocalDate date) {
-        this.orderId = orderId;
-        this.orderItems = orderItems;
+    public Bill(String billId, List<BillItem> billItems, Double totalAmount, String customerId, LocalDateTime date) {
+        this.billId = billId;
+        this.billItems = billItems;
         this.totalAmount = totalAmount;
         this.customerId = customerId;
         this.date = date;
     }
 
-    private Order(Builder builder) {
-        this.orderId = builder.orderId;
-        this.orderItems = builder.orderItems;
+    private Bill(Builder builder) {
+        this.billId = builder.billId;
+        this.billItems = builder.billItems;
         this.totalAmount = builder.totalAmount;
         this.customerId = builder.customerId;
         this.date = builder.date;
     }
 
     public static class Builder {
-        private String orderId;
-        private List<OrderItem> orderItems;
+        private String billId;
+        private List<BillItem> billItems;
         private Double totalAmount;
         private String customerId;
-        private LocalDate date;
+        private LocalDateTime date;
 
-        public Builder setOrderId(String orderId) {
-            this.orderId = orderId;
+        public Builder setBillId(String billId) {
+            this.billId = billId;
             return this;
         }
 
-        public Builder setOrderItems(List<OrderItem> orderItems) {
-            this.orderItems = orderItems;
+        public Builder setBillItems(List<BillItem> billItems) {
+            this.billItems = billItems;
             return this;
         }
 
@@ -57,30 +57,30 @@ public class Order {
             return this;
         }
 
-        public Builder setDate(LocalDate date) {
+        public Builder setDate(LocalDateTime date) {
             this.date = date;
             return this;
         }
 
-        public Order build() {
-            return new Order(this);
+        public Bill build() {
+            return new Bill(this);
         }
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getBillId() {
+        return billId;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setBillId(String billId) {
+        this.billId = billId;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public List<BillItem> getBillItems() {
+        return billItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+    public void setBillItems(List<BillItem> billItems) {
+        this.billItems = billItems;
     }
 
     public Double getTotalAmount() {
@@ -99,19 +99,19 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId='" + orderId + '\'' +
-                ", orderItems=" + orderItems +
+        return "Bill{" +
+                "billId='" + billId + '\'' +
+                ", billItems=" + billItems +
                 ", totalAmount=" + totalAmount +
                 ", customerId='" + customerId + '\'' +
                 ", date=" + date +
