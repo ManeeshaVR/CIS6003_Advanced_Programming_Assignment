@@ -53,10 +53,24 @@ public class EditCustomerServlet extends HttpServlet {
         if (id != null && !id.isEmpty()) {
             CustomerDTO customerDTO = CustomerMapper.buildCustomerDTOFromRequest(req);
             String validationError = validateCustomerDTO(customerDTO);
+            boolean emailExists = customerService.existsCustomerByEmail(customerDTO.getEmail(), id);
+            boolean mobileNumberExists = customerService.existsCustomerByMobileNumber(customerDTO.getMobileNumber(), id);
 
             if (validationError == null) {
-                customerService.updateCustomer(id, customerDTO);
-                req.getSession().setAttribute("flash_success", "Customer updated successfully!");
+                if (!mobileNumberExists) {
+                    if (!emailExists) {
+                        boolean updateCustomer = customerService.updateCustomer(id, customerDTO);
+                        if (updateCustomer) {
+                            req.getSession().setAttribute("flash_success", "Customer updated successfully!");
+                        } else {
+                            req.getSession().setAttribute("flash_error", "Failed to update customer.");
+                        }
+                    } else {
+                        req.getSession().setAttribute("flash_error", "Email already exists.");
+                    }
+                } else {
+                    req.getSession().setAttribute("flash_error", "Mobile Number already exists.");
+                }
             } else {
                 req.getSession().setAttribute("flash_error", validationError);
             }
