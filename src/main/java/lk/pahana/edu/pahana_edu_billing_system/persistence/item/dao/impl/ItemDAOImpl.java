@@ -33,7 +33,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public void save(Item item) {
+    public boolean save(Item item) {
         try (
                 Connection connection = DBConnection.getInstance().getConnection();
                 PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.INSERT)
@@ -48,8 +48,10 @@ public class ItemDAOImpl implements ItemDAO {
             pstm.setString(8, item.getAuthor());
 
             pstm.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -72,7 +74,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public void update(String itemCode, Item item) {
+    public boolean update(String itemCode, Item item) {
         try (
                 Connection connection = DBConnection.getInstance().getConnection();
                 PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.UPDATE)
@@ -87,21 +89,25 @@ public class ItemDAOImpl implements ItemDAO {
             pstm.setString(8, itemCode);
 
             pstm.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
     @Override
-    public void delete(String itemCode) {
+    public boolean delete(String itemCode) {
         try (
                 Connection connection = DBConnection.getInstance().getConnection();
                 PreparedStatement pstm = connection.prepareStatement(SqlQueries.Item.DELETE)
         ) {
             pstm.setString(1, itemCode);
             pstm.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -158,5 +164,35 @@ public class ItemDAOImpl implements ItemDAO {
             e.printStackTrace();
         }
         return topItems;
+    }
+
+    @Override
+    public boolean existsDuplicate(String name, String publisher, String author, String itemCode) {
+        String sql = (itemCode != null && !itemCode.isEmpty())
+                ? SqlQueries.Item.EXISTS_OTHER_DUPLICATE
+                : SqlQueries.Item.EXISTS_DUPLICATE;
+
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(sql)
+        ) {
+            pstm.setString(1, name);
+            pstm.setString(2, author);
+            pstm.setString(3, publisher);
+            if (itemCode != null && !itemCode.isEmpty()) {
+                pstm.setString(4, itemCode);
+            }
+
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true;
+        }
+
+        return false;
     }
 }

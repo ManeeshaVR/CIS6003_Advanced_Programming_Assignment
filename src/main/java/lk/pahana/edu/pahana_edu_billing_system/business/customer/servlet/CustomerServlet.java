@@ -44,9 +44,25 @@ public class CustomerServlet extends HttpServlet {
             CustomerDTO customerDTO = CustomerMapper.buildCustomerDTOFromRequest(req);
             String validationError = validateCustomerDTO(customerDTO);
 
+            boolean emailExists = customerService.existsCustomerByEmail(customerDTO.getEmail(), null);
+            boolean mobileNumberExists = customerService.existsCustomerByMobileNumber(customerDTO.getMobileNumber(), null);
+
             if (validationError == null) {
-                customerService.saveCustomer(customerDTO);
-                req.getSession().setAttribute("flash_success", "Customer created successfully!");
+                if (!mobileNumberExists) {
+                    if (!emailExists) {
+                        boolean savedCustomer = customerService.saveCustomer(customerDTO);
+
+                        if (savedCustomer) {
+                            req.getSession().setAttribute("flash_success", "Customer created successfully!");
+                        } else {
+                            req.getSession().setAttribute("flash_error", "Failed to create customer.");
+                        }
+                    } else {
+                        req.getSession().setAttribute("flash_error", "Email already exists.");
+                    }
+                } else {
+                    req.getSession().setAttribute("flash_error", "Mobile Number already exists.");
+                }
             } else {
                 req.getSession().setAttribute("flash_error", validationError);
             }
@@ -54,6 +70,8 @@ public class CustomerServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/customer");
         } catch (Exception e) {
             e.printStackTrace();
+            req.getSession().setAttribute("flash_error", "Unexpected error occurred.");
+            resp.sendRedirect(req.getContextPath() + "/customer");
         }
     }
 }

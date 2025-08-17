@@ -9,18 +9,20 @@ public interface ItemService {
 
     List<ItemDTO> getAllItems();
 
-    void saveItem(ItemDTO item);
+    boolean saveItem(ItemDTO item);
 
     ItemDTO getItemByCode(String itemCode);
 
-    void updateItem(String itemCode, ItemDTO itemDTO);
+    boolean updateItem(String itemCode, ItemDTO itemDTO);
 
-    void deleteItem(String itemCode);
+    boolean deleteItem(String itemCode);
 
     void deductItemQuantity(Map<String, Integer> itemQuantities);
 
     int getItemCount();
 
     List<ItemDTO> getTopItems();
+
+    boolean existsItemDuplicate(String name, String publisher, String author, String itemCode);
 
 }

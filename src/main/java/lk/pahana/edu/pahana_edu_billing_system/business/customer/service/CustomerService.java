@@ -6,20 +6,24 @@ import java.util.List;
 
 public interface CustomerService {
 
-    void saveCustomer(CustomerDTO customer);
+    boolean saveCustomer(CustomerDTO customer);
 
     List<CustomerDTO> getAllCustomers();
 
     CustomerDTO getCustomerById(String id);
 
-    void updateCustomer(String id, CustomerDTO updatedCustomer);
+    boolean updateCustomer(String id, CustomerDTO updatedCustomer);
 
-    void deleteCustomer(String id);
+    boolean deleteCustomer(String id);
 
     void addUnitsConsumed(String id, int units);
 
     int getCustomerCount();
 
     List<CustomerDTO> getTopCustomers();
+
+    boolean existsCustomerByEmail(String email, String id);
+
+    boolean existsCustomerByMobileNumber(String mobileNumber, String id);
 
 }

@@ -9,18 +9,20 @@ public interface ItemDAO {
 
     List<Item> findAll();
 
-    void save(Item item);
+    boolean save(Item item);
 
     Item findById(String itemCode);
 
-    void update(String itemCode, Item item);
+    boolean update(String itemCode, Item item);
 
-    void delete(String itemCode);
+    boolean delete(String itemCode);
 
     void deductQuantity(Map<String, Integer> itemQuantities);
 
     int getCount();
 
     List<Item> findTopItems();
+
+    boolean existsDuplicate(String name, String publisher, String author, String itemCode);
 
 }

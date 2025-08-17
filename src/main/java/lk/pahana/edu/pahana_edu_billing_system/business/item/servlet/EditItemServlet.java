@@ -53,10 +53,19 @@ public class EditItemServlet extends HttpServlet {
         if (code != null && !code.isEmpty()) {
             ItemDTO itemDTO = ItemMapper.buildItemDTOFromRequest(req);
             String validationError = Validation.validateItemDTO(itemDTO);
+            boolean existsDuplicate = itemService.existsItemDuplicate(itemDTO.getItemName(), itemDTO.getPublisher(), itemDTO.getAuthor(), code);
 
             if (validationError == null) {
-                itemService.updateItem(code, itemDTO);
-                req.getSession().setAttribute("flash_success", "Item updated successfully!");
+                if (!existsDuplicate) {
+                    boolean updateItem = itemService.updateItem(code, itemDTO);
+                    if (updateItem) {
+                        req.getSession().setAttribute("flash_success", "Item updated successfully!");
+                    } else {
+                        req.getSession().setAttribute("flash_error", "Failed to update item.");
+                    }
+                } else {
+                    req.getSession().setAttribute("flash_error", "Item with the same name, publisher, and author already exists.");
+                }
             } else {
                 req.getSession().setAttribute("flash_error", validationError);
             }
