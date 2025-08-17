@@ -26,6 +26,18 @@ public class SqlQueries {
 
         public static final String FIND_TOP_CUSTOMERS =
                 "SELECT * FROM customer ORDER BY units_consumed DESC LIMIT 3";
+
+        public static final String EXISTS_BY_EMAIL =
+                "SELECT COUNT(*) FROM customer WHERE email = ?";
+
+        public static final String EXISTS_BY_MOBILE_NUMBER =
+                "SELECT COUNT(*) FROM customer WHERE mobile_number = ?";
+
+        public static final String EXISTS_OTHER_BY_EMAIL =
+                "SELECT COUNT(*) FROM customer WHERE email = ? AND customer_id <> ?";
+
+        public static final String EXISTS_OTHER_BY_MOBILE_NUMBER =
+                "SELECT COUNT(*) FROM customer WHERE mobile_number = ? AND customer_id <> ?";
     }
 
     public static final class Item {
