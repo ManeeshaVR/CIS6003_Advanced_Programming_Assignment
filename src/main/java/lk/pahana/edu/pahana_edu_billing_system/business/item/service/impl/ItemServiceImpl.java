@@ -27,9 +27,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void saveItem(ItemDTO item) {
+    public boolean saveItem(ItemDTO item) {
         item.setItemCode(UUID.randomUUID().toString());
-        itemDAO.save(ItemMapper.toEntity(item));
+        return itemDAO.save(ItemMapper.toEntity(item));
     }
 
     @Override
@@ -38,13 +38,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateItem(String itemCode, ItemDTO itemDTO) {
-        itemDAO.update(itemCode, ItemMapper.toEntity(itemDTO));
+    public boolean updateItem(String itemCode, ItemDTO itemDTO) {
+        return itemDAO.update(itemCode, ItemMapper.toEntity(itemDTO));
     }
 
     @Override
-    public void deleteItem(String itemCode) {
-        itemDAO.delete(itemCode);
+    public boolean deleteItem(String itemCode) {
+        return itemDAO.delete(itemCode);
     }
 
     @Override
@@ -65,6 +65,11 @@ public class ItemServiceImpl implements ItemService {
             itemDTOS.add(ItemMapper.toDTO(item));
         }
         return itemDTOS;
+    }
+
+    @Override
+    public boolean existsItemDuplicate(String name, String publisher, String author, String itemCode) {
+        return itemDAO.existsDuplicate(name, publisher, author, itemCode);
     }
 
 }
