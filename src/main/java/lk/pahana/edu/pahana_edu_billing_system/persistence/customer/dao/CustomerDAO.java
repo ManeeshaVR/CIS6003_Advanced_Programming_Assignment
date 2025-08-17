@@ -6,20 +6,24 @@ import java.util.List;
 
 public interface CustomerDAO {
 
-    void save(Customer customer);
+    boolean save(Customer customer);
 
     List<Customer> findAll();
 
     Customer findById(String id);
 
-    void update(String id, Customer customer);
+    boolean update(String id, Customer customer);
 
-    void delete(String id);
+    boolean delete(String id);
 
     void addUnitsConsumed(String id, int units);
 
     int getCount();
 
     List<Customer> findTopCustomers();
+
+    boolean existsByEmail(String email, String id);
+
+    boolean existsByMobileNumber(String mobileNumber, String id);
 
 }
