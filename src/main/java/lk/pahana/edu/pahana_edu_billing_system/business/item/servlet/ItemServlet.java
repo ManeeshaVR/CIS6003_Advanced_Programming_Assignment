@@ -40,10 +40,19 @@ public class ItemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ItemDTO itemDTO = ItemMapper.buildItemDTOFromRequest(req);
         String validationError = validateItemDTO(itemDTO);
+        boolean existsDuplicate = itemService.existsItemDuplicate(itemDTO.getItemName(), itemDTO.getPublisher(), itemDTO.getAuthor(), null);
 
         if (validationError == null) {
-            itemService.saveItem(itemDTO);
-            req.getSession().setAttribute("flash_success", "Item created successfully!");
+            if (!existsDuplicate) {
+                boolean saveItem = itemService.saveItem(itemDTO);
+                if (saveItem) {
+                    req.getSession().setAttribute("flash_success", "Item created successfully!");
+                } else {
+                    req.getSession().setAttribute("flash_error", "Failed to create item.");
+                }
+            } else {
+                req.getSession().setAttribute("flash_error", "Item with the same name, publisher, and author already exists.");
+            }
         } else {
             req.getSession().setAttribute("flash_error", validationError);
         }
