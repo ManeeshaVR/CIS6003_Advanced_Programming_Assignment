@@ -22,6 +22,7 @@
                     <th>Bill Date</th>
                     <th>Customer Id</th>
                     <th>Total Amount</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,6 +42,11 @@
                     <td><%= bill.getDate().toLocalDate() %></td>
                     <td><%= bill.getCustomerId() %></td>
                     <td><%= bill.getTotalAmount() %></td>
+                    <td>
+                        <a href="<%= request.getContextPath() %>/bill/generate?id=<%= bill.getBillId() %>" class="btn btn-primary btn-outline">
+                            View Invoice
+                        </a>
+                    </td>
                 </tr>
                 <%
                         }
