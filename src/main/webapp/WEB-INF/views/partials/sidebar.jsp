@@ -26,11 +26,19 @@
             </a>
         </li>
         <li>
-            <a href="<%= request.getContextPath() %>/order" class="flex items-center p-3 rounded-lg transition-all
-            <%= request.getRequestURI().contains("/order") ? "text-primary" : "" %>
+            <a href="<%= request.getContextPath() %>/bill/create" class="flex items-center p-3 rounded-lg transition-all
+            <%= request.getRequestURI().equals(request.getContextPath() + "/bill/create") ? "text-primary" : "" %>
+                focus:text-primary active:text-primary">
+                <i class="fa-solid fa-cart-plus mr-3 text-lg"></i>
+                Create Bill
+            </a>
+        </li>
+        <li>
+            <a href="<%= request.getContextPath() %>/bill" class="flex items-center p-3 rounded-lg transition-all
+            <%= request.getRequestURI().equals(request.getContextPath() + "/bill") ? "text-primary" : "" %>
                 focus:text-primary active:text-primary">
                 <i class="fa-solid fa-cart-shopping mr-3 text-lg"></i>
-                Orders
+                Bills Overview
             </a>
         </li>
     </ul>

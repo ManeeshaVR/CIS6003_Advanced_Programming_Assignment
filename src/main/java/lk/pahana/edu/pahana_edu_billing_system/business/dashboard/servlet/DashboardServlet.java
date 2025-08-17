@@ -5,14 +5,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.InvoiceDTO;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.dto.CustomerDTO;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.CustomerService;
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.impl.CustomerServiceImpl;
 import lk.pahana.edu.pahana_edu_billing_system.business.item.service.ItemService;
 import lk.pahana.edu.pahana_edu_billing_system.business.item.service.impl.ItemServiceImpl;
-import lk.pahana.edu.pahana_edu_billing_system.business.order.dto.OrderDTO;
-import lk.pahana.edu.pahana_edu_billing_system.business.order.service.OrderService;
-import lk.pahana.edu.pahana_edu_billing_system.business.order.service.impl.OrderServiceImpl;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.BillDTO;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.service.BillService;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.service.impl.BillServiceImpl;
 
 import java.io.IOException;
 
@@ -21,26 +22,25 @@ public class DashboardServlet extends HttpServlet {
 
     private CustomerService customerService;
     private ItemService itemService;
-    private OrderService orderService;
+    private BillService orderService;
 
     @Override
     public void init() throws ServletException {
         customerService = new CustomerServiceImpl();
         itemService = new ItemServiceImpl();
-        orderService = new OrderServiceImpl();
+        orderService = new BillServiceImpl();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int customerCount = customerService.getCustomerCount();
         int itemCount = itemService.getItemCount();
-        int orderCount = orderService.getOrderCount();
-        OrderDTO lastOrder = orderService.getLastOrder();
+        int orderCount = orderService.getBillCount();
+        InvoiceDTO lastOrder = orderService.getLastBill();
         CustomerDTO lastCustomer = null;
         if (lastOrder != null) {
             lastCustomer = customerService.getCustomerById(lastOrder.getCustomerId());
         }
-        System.out.println("Top Items: " + itemService.getTopItems());
         req.setAttribute("topCustomers", customerService.getTopCustomers());
         req.setAttribute("topItems", itemService.getTopItems());
         req.setAttribute("lastOrder", lastOrder);
