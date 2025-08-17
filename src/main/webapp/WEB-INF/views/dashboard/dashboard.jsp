@@ -88,7 +88,7 @@
                     <p>
                         <i class="fa-solid fa-calendar-day text-gray-600 mr-2"></i>
                         <span class="font-semibold">Date:</span>
-                        <%= lastOrder != null ? lastOrder.getDate() : "N/A" %>
+                        <%= lastOrder != null ? lastOrder.getDate().toLocalDate() : "N/A" %>
                     </p>
                 </div>
 
