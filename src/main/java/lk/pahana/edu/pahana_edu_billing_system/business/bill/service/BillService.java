@@ -15,4 +15,6 @@ public interface BillService {
 
     List<BillDTO> getAllBills();
 
+    InvoiceDTO findBillById(String billId);
+
 }

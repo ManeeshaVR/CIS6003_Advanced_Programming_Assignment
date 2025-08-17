@@ -44,4 +44,9 @@ public class BillServiceImpl implements BillService {
         }
         return billDTOS;
     }
+
+    @Override
+    public InvoiceDTO findBillById(String billId) {
+        return InvoiceMapper.toDTO(billDAO.findById(billId));
+    }
 }

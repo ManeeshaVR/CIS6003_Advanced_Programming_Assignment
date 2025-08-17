@@ -5,6 +5,7 @@ import lk.pahana.edu.pahana_edu_billing_system.business.bill.mapper.InvoiceMappe
 import lk.pahana.edu.pahana_edu_billing_system.business.bill.model.Bill;
 import lk.pahana.edu.pahana_edu_billing_system.business.bill.model.BillItem;
 import lk.pahana.edu.pahana_edu_billing_system.business.bill.model.Invoice;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.model.InvoiceItem;
 import lk.pahana.edu.pahana_edu_billing_system.persistence.bill.dao.BillDAO;
 import lk.pahana.edu.pahana_edu_billing_system.util.db.DBConnection;
 import lk.pahana.edu.pahana_edu_billing_system.util.db.SqlQueries;
@@ -136,5 +137,51 @@ public class BillDAOImpl implements BillDAO {
             e.printStackTrace();
         }
         return bills;
+    }
+
+    @Override
+    public Invoice findById(String billId) {
+        Invoice invoice = null;
+        try (
+                Connection connection = DBConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement(SqlQueries.Bill.FIND_BY_ID)
+        ) {
+            pstm.setString(1, billId);
+            try (ResultSet rs = pstm.executeQuery()) {
+                List<InvoiceItem> items = new ArrayList<>();
+                boolean firstRow = true;
+
+                while (rs.next()) {
+                    if (firstRow) {
+                        invoice = new Invoice.Builder()
+                                .setBillId(rs.getString("bill_id"))
+                                .setDate(rs.getTimestamp("bill_date").toLocalDateTime())
+                                .setCustomerId(rs.getString("customer_id"))
+                                .setTotalAmount(rs.getDouble("total_amount"))
+                                .build();
+                        firstRow = false;
+                    }
+
+                    String itemCode = rs.getString("item_code");
+                    if (itemCode != null) {
+                        InvoiceItem item = new InvoiceItem.Builder()
+                                .itemCode(itemCode)
+                                .itemName(rs.getString("item_name"))
+                                .quantity(rs.getInt("quantity"))
+                                .unitPrice(rs.getDouble("unit_price"))
+                                .build();
+                        items.add(item);
+                    }
+                }
+
+                if (invoice != null) {
+                    invoice.setBillItems(items);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return invoice;
     }
 }
