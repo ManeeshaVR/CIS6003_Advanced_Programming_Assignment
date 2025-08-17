@@ -70,9 +70,9 @@ public class SqlQueries {
                         "       i.unit_price, " +
                         "       i.publisher, " +
                         "       i.author, " +
-                        "       SUM(oi.quantity) AS stock_quantity " +
+                        "       SUM(bi.quantity) AS stock_quantity " +
                         "FROM item i " +
-                        "JOIN order_item oi ON i.item_code = oi.item_code " +
+                        "JOIN bill_item bi ON i.item_code = bi.item_code " +
                         "GROUP BY i.item_code, i.item_name, i.category, i.description, i.unit_price, i.publisher, i.author " +
                         "ORDER BY stock_quantity DESC " +
                         "LIMIT 3";
@@ -84,37 +84,40 @@ public class SqlQueries {
                 "SELECT COUNT(*) FROM item WHERE item_name = ? AND author = ? AND publisher = ? AND item_code <> ?";
     }
 
-    public static final class Order {
+    public static final class Bill {
         public static final String INSERT =
-                "INSERT INTO orders (order_id, order_date, customer_id, total_amount) VALUES (?, ?, ?, ?)";
+                "INSERT INTO bill (bill_id, bill_date, customer_id, total_amount) VALUES (?, ?, ?, ?)";
 
         public static final String FIND_LAST =
-                "SELECT \n" +
-                        "    o.order_id,\n" +
-                        "    o.order_date,\n" +
-                        "    o.customer_id,\n" +
-                        "    o.total_amount,\n" +
-                        "    oi.item_code,\n" +
-                        "    i.item_name,\n" +
-                        "    oi.quantity,\n" +
-                        "    oi.unit_price\n" +
-                        "FROM orders o\n" +
-                        "JOIN order_item oi ON o.order_id = oi.order_id\n" +
-                        "JOIN item i ON oi.item_code = i.item_code\n" +
-                        "WHERE o.order_id = (\n" +
-                        "    SELECT order_id \n" +
-                        "    FROM orders \n" +
-                        "    ORDER BY order_date DESC, order_id DESC \n" +
-                        "    LIMIT 1\n" +
-                        ");";
+                "SELECT " +
+                        "    b.bill_id, " +
+                        "    b.bill_date, " +
+                        "    b.customer_id, " +
+                        "    b.total_amount, " +
+                        "    bi.item_code, " +
+                        "    i.item_name, " +
+                        "    bi.quantity, " +
+                        "    bi.unit_price " +
+                        "FROM bill b " +
+                        "JOIN bill_item bi ON b.bill_id = bi.bill_id " +
+                        "JOIN item i ON bi.item_code = i.item_code " +
+                        "WHERE b.bill_id = ( " +
+                        "    SELECT bill_id " +
+                        "    FROM bill " +
+                        "    ORDER BY bill_date DESC" +
+                        "    LIMIT 1 " +
+                        ")";
 
         public static final String COUNT =
-                "SELECT COUNT(*) FROM orders";
+                "SELECT COUNT(*) FROM bill";
+
+        public static final String FIND_ALL =
+                "SELECT * FROM bill ORDER BY bill_date DESC";
     }
 
-    public static final class OrderItem {
+    public static final class BillItem {
         public static final String INSERT =
-                "INSERT INTO order_item (order_id, item_code, quantity, unit_price) VALUES (?, ?, ?, ?)";
+                "INSERT INTO bill_item (bill_id, item_code, quantity, unit_price) VALUES (?, ?, ?, ?)";
     }
 
     public static final class User {
