@@ -91,13 +91,14 @@ public class CreateBillServlet extends HttpServlet {
             boolean isBillSaved = billService.saveBill(billDTO);
             if (isBillSaved) {
                 req.getSession().setAttribute("flash_success", "Bill Created successfully!");
+                resp.sendRedirect(req.getContextPath() + "/bill/generate?id=" + billDTO.getBillId());
             } else {
                 req.getSession().setAttribute("flash_error", "Failed to create the bill");
+                resp.sendRedirect(req.getContextPath() + "/bill/create");
             }
         } else {
             req.getSession().setAttribute("flash_error", "Missing or not valid data!");
+            resp.sendRedirect(req.getContextPath() + "/bill/create");
         }
-
-        resp.sendRedirect(req.getContextPath() + "/bill/create");
     }
 }
