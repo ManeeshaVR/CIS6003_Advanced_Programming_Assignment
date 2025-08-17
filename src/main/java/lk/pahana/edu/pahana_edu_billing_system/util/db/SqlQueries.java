@@ -113,6 +113,14 @@ public class SqlQueries {
 
         public static final String FIND_ALL =
                 "SELECT * FROM bill ORDER BY bill_date DESC";
+
+        public static final String FIND_BY_ID =
+                "SELECT b.bill_id, b.bill_date, b.customer_id, b.total_amount, " +
+                        "       bi.item_code, i.item_name, bi.quantity, bi.unit_price " +
+                        "FROM bill b " +
+                        "JOIN bill_item bi ON b.bill_id = bi.bill_id " +
+                        "JOIN item i ON bi.item_code = i.item_code " +
+                        "WHERE b.bill_id = ?";
     }
 
     public static final class BillItem {

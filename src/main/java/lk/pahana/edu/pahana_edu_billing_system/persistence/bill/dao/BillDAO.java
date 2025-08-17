@@ -15,4 +15,6 @@ public interface BillDAO {
 
     List<Bill> findAll();
 
+    Invoice findById(String billId);
+
 }
