@@ -6,6 +6,8 @@ public interface OrderService {
 
     boolean saveOrder(OrderDTO orderDTO);
 
+    OrderDTO getOrderById(String orderId);
+
     OrderDTO getLastOrder();
 
     int getOrderCount();

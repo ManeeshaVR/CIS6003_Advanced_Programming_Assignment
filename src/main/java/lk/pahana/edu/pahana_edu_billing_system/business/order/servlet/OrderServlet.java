@@ -36,16 +36,21 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         req.setAttribute("customers", customerService.getAllCustomers());
         req.setAttribute("items", itemService.getAllItems());
-        OrderDTO lastOrder = orderService.getLastOrder();
-        String customerId = null;
-        if (lastOrder != null) {
-            customerId = lastOrder.getCustomerId();
+        req.setAttribute("recentOrder", orderService.getLastOrder());
+        req.setAttribute("recentCustomer", customerService.getCustomerById(orderService.getLastOrder().getCustomerId()));
+
+        String lastOrderId = req.getParameter("lastOrderId");
+        String showInvoiceParam = req.getParameter("showInvoice");
+
+        if (lastOrderId != null && "true".equalsIgnoreCase(showInvoiceParam)) {
+            OrderDTO lastOrder = orderService.getOrderById(lastOrderId);
+            req.setAttribute("showInvoice", true);
+            req.setAttribute("lastOrder", lastOrder);
+            req.setAttribute("lastOrderCustomer", customerService.getCustomerById(lastOrder.getCustomerId()));
         }
-        req.setAttribute("lastOrder", lastOrder);
-        req.setAttribute("lastOrderCustomer", customerService.getCustomerById(customerId));
+
         req.setAttribute("pageTitle", "Place Order");
         req.setAttribute("body", "../order/view-order.jsp");
 
@@ -58,7 +63,6 @@ public class OrderServlet extends HttpServlet {
         String total = req.getParameter("total");
 
         List<OrderItemDTO> orderItems = new ArrayList<>();
-
         Map<String, Integer> itemQuantity = new HashMap<>();
         int totalQuantity = 0;
 
@@ -68,9 +72,7 @@ public class OrderServlet extends HttpServlet {
             String quantityStr = req.getParameter("items[" + index + "].quantity");
             String priceStr = req.getParameter("items[" + index + "].price");
 
-            if (code == null || quantityStr == null || priceStr == null) {
-                break;
-            }
+            if (code == null || quantityStr == null || priceStr == null) break;
 
             try {
                 int quantity = Integer.parseInt(quantityStr);
@@ -84,12 +86,10 @@ public class OrderServlet extends HttpServlet {
 
                 itemQuantity.put(code, quantity);
                 totalQuantity += quantity;
-
                 orderItems.add(item);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-
             index++;
         }
 
@@ -105,6 +105,10 @@ public class OrderServlet extends HttpServlet {
                 req.getSession().setAttribute("flash_success", "Order Placed successfully!");
                 itemService.deductItemQuantity(itemQuantity);
                 customerService.addUnitsConsumed(customerId, totalQuantity);
+
+                // Redirect with lastOrderId to show invoice
+                resp.sendRedirect(req.getContextPath() + "/order?lastOrderId=" + orderDTO.getOrderId() + "&showInvoice=true");
+                return;
             } else {
                 req.getSession().setAttribute("flash_error", "Failed to place the order");
             }

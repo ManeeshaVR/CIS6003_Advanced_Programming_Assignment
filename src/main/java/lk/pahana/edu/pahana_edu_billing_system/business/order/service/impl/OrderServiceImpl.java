@@ -21,6 +21,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderDTO getOrderById(String orderId) {
+        return OrderMapper.toDTO(orderDAO.findById(orderId));
+    }
+
+    @Override
     public OrderDTO getLastOrder() {
         return OrderMapper.toDTO(orderDAO.findLast());
     }

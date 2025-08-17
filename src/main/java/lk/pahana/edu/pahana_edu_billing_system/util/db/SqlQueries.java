@@ -70,6 +70,21 @@ public class SqlQueries {
         public static final String INSERT =
                 "INSERT INTO orders (order_id, order_date, customer_id, total_amount) VALUES (?, ?, ?, ?)";
 
+        public static final String FIND_BY_ID =
+                "SELECT \n" +
+                        "    o.order_id,\n" +
+                        "    o.order_date,\n" +
+                        "    o.customer_id,\n" +
+                        "    o.total_amount,\n" +
+                        "    oi.item_code,\n" +
+                        "    i.item_name,\n" +
+                        "    oi.quantity,\n" +
+                        "    oi.unit_price\n" +
+                        "FROM orders o\n" +
+                        "JOIN order_item oi ON o.order_id = oi.order_id\n" +
+                        "JOIN item i ON oi.item_code = i.item_code\n" +
+                        "WHERE o.order_id = ?;";
+
         public static final String FIND_LAST =
                 "SELECT \n" +
                         "    o.order_id,\n" +
@@ -86,7 +101,7 @@ public class SqlQueries {
                         "WHERE o.order_id = (\n" +
                         "    SELECT order_id \n" +
                         "    FROM orders \n" +
-                        "    ORDER BY order_date DESC, order_id DESC \n" +
+                        "    ORDER BY order_date DESC \n" +
                         "    LIMIT 1\n" +
                         ");";
 

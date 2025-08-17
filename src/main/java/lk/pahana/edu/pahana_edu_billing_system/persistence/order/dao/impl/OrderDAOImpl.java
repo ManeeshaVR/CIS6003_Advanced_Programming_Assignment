@@ -66,6 +66,38 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    public Order findById(String orderId) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
+        try {
+            connection = DBConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(SqlQueries.Order.FIND_BY_ID);
+            pstm.setString(1, orderId);
+            ResultSet resultSet = pstm.executeQuery();
+
+            Order order = null;
+            if (resultSet.isBeforeFirst()) {
+                order = OrderMapper.mapToOrder(resultSet);
+            }
+            return order;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (pstm != null) pstm.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public Order findLast() {
         Connection connection = null;
         PreparedStatement pstm = null;

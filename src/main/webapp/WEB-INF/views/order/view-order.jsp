@@ -10,7 +10,31 @@
     List<ItemDTO> items = (List<ItemDTO>) request.getAttribute("items");
     OrderDTO lastOrder = (OrderDTO) request.getAttribute("lastOrder");
     CustomerDTO lastOrderCustomer = (CustomerDTO) request.getAttribute("lastOrderCustomer");
+    OrderDTO recentOrder = (OrderDTO) request.getAttribute("recentOrder");
+    CustomerDTO recentOrderCustomer = (CustomerDTO) request.getAttribute("recentCustomer");
+    Boolean showInvoice = (Boolean) request.getAttribute("showInvoice");
 %>
+
+<% if (showInvoice != null && showInvoice && lastOrder != null) { %>
+<div class="modal modal-open">
+    <div class="modal-box w-11/12 max-w-5xl">
+        <h3 class="font-bold text-lg">Invoice</h3>
+
+        <!-- HTML invoice preview -->
+        <iframe src="<%= request.getContextPath() %>/bill?orderId=<%= lastOrder.getOrderId() %>"
+                width="100%" height="600px"></iframe>
+
+        <div class="modal-action">
+            <!-- Download PDF -->
+            <a href="<%= request.getContextPath() %>/bill?orderId=<%= lastOrder.getOrderId() %>&download=true"
+               target="_blank"
+               class="btn btn-primary">Download</a>
+
+            <a href="<%= request.getContextPath() %>/order" class="btn">Close</a>
+        </div>
+    </div>
+</div>
+<% } %>
 
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold">Place Order</h1>
@@ -108,11 +132,11 @@
         <div class="bg-base-100 p-6 rounded-box shadow-lg">
             <h3 class="text-lg font-semibold mb-2">Recent Bill</h3>
 
-            <% if (lastOrder != null && lastOrder.getOrderItems() != null && !lastOrder.getOrderItems().isEmpty()) { %>
+            <% if (recentOrder != null && recentOrder.getOrderItems() != null && !recentOrder.getOrderItems().isEmpty()) { %>
             <p class="mb-2 font-semibold">
-                Customer: <%= lastOrderCustomer != null ? lastOrderCustomer.getName() : "Unknown" %><br/>
-                Order Date: <%= lastOrder.getDate() %><br/>
-                Total: Rs. <%= String.format("%.2f", lastOrder.getTotalAmount()) %>
+                Customer: <%= recentOrderCustomer != null ? recentOrderCustomer.getName() : "Unknown" %><br/>
+                Order Date: <%= recentOrder.getDate() %><br/>
+                Total: Rs. <%= String.format("%.2f", recentOrder.getTotalAmount()) %>
             </p>
 
             <table class="table table-zebra w-full text-sm">
@@ -125,7 +149,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% for (OrderItemDTO item : lastOrder.getOrderItems()) { %>
+                <% for (OrderItemDTO item : recentOrder.getOrderItems()) { %>
                 <tr>
                     <td><%= item.getItemName() %></td>
                     <td><%= item.getQuantity() %></td>
@@ -147,6 +171,15 @@
     <input type="hidden" name="total" id="totalHidden">
 
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        <% if (showInvoice != null && showInvoice) { %>
+        var myModal = new bootstrap.Modal(document.getElementById('pdfModal'));
+        myModal.show();
+        <% } %>
+    });
+</script>
 
 <script>
     const billItems = [];

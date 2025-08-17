@@ -6,6 +6,8 @@ public interface OrderDAO {
 
     boolean save(Order order);
 
+    Order findById(String orderId);
+
     Order findLast();
 
     int getCount();
