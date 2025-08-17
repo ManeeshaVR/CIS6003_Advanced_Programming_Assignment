@@ -1,4 +1,4 @@
-package lk.pahana.edu.pahana_edu_billing_system.business.order.servlet;
+package lk.pahana.edu.pahana_edu_billing_system.business.bill.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,10 +9,10 @@ import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.Custome
 import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.impl.CustomerServiceImpl;
 import lk.pahana.edu.pahana_edu_billing_system.business.item.service.ItemService;
 import lk.pahana.edu.pahana_edu_billing_system.business.item.service.impl.ItemServiceImpl;
-import lk.pahana.edu.pahana_edu_billing_system.business.order.dto.OrderDTO;
-import lk.pahana.edu.pahana_edu_billing_system.business.order.dto.OrderItemDTO;
-import lk.pahana.edu.pahana_edu_billing_system.business.order.service.OrderService;
-import lk.pahana.edu.pahana_edu_billing_system.business.order.service.impl.OrderServiceImpl;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.BillDTO;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.BillItemDTO;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.service.BillService;
+import lk.pahana.edu.pahana_edu_billing_system.business.bill.service.impl.BillServiceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,18 +20,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "order", urlPatterns = "/order")
-public class OrderServlet extends HttpServlet {
+@WebServlet(name = "create-bill", urlPatterns = "/bill/create")
+public class CreateBillServlet extends HttpServlet {
 
     private CustomerService customerService;
     private ItemService itemService;
-    private OrderService orderService;
+    private BillService billService;
 
     @Override
     public void init() throws ServletException {
         customerService = new CustomerServiceImpl();
         itemService = new ItemServiceImpl();
-        orderService = new OrderServiceImpl();
+        billService = new BillServiceImpl();
     }
 
     @Override
@@ -39,15 +39,8 @@ public class OrderServlet extends HttpServlet {
 
         req.setAttribute("customers", customerService.getAllCustomers());
         req.setAttribute("items", itemService.getAllItems());
-        OrderDTO lastOrder = orderService.getLastOrder();
-        String customerId = null;
-        if (lastOrder != null) {
-            customerId = lastOrder.getCustomerId();
-        }
-        req.setAttribute("lastOrder", lastOrder);
-        req.setAttribute("lastOrderCustomer", customerService.getCustomerById(customerId));
-        req.setAttribute("pageTitle", "Place Order");
-        req.setAttribute("body", "../order/view-order.jsp");
+        req.setAttribute("pageTitle", "Create Bill");
+        req.setAttribute("body", "../bill/add-bill.jsp");
 
         req.getRequestDispatcher("/WEB-INF/views/layout/layout.jsp").forward(req, resp);
     }
@@ -57,10 +50,8 @@ public class OrderServlet extends HttpServlet {
         String customerId = req.getParameter("customerId");
         String total = req.getParameter("total");
 
-        List<OrderItemDTO> orderItems = new ArrayList<>();
-
-        Map<String, Integer> itemQuantity = new HashMap<>();
-        int totalQuantity = 0;
+        // Prepare to collect bill items
+        List<BillItemDTO> billItems = new ArrayList<>();
 
         int index = 0;
         while (true) {
@@ -76,16 +67,13 @@ public class OrderServlet extends HttpServlet {
                 int quantity = Integer.parseInt(quantityStr);
                 double price = Double.parseDouble(priceStr);
 
-                OrderItemDTO item = new OrderItemDTO.Builder()
+                BillItemDTO item = new BillItemDTO.Builder()
                         .itemCode(code)
                         .quantity(quantity)
                         .unitPrice(price)
                         .build();
 
-                itemQuantity.put(code, quantity);
-                totalQuantity += quantity;
-
-                orderItems.add(item);
+                billItems.add(item);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -93,25 +81,23 @@ public class OrderServlet extends HttpServlet {
             index++;
         }
 
-        if (customerId != null && total != null && !orderItems.isEmpty()){
-            OrderDTO orderDTO = new OrderDTO.Builder()
+        if (customerId != null && total != null && !billItems.isEmpty()){
+            BillDTO billDTO = new BillDTO.Builder()
                     .setCustomerId(customerId)
-                    .setOrderItems(orderItems)
+                    .setBillItems(billItems)
                     .setTotalAmount(Double.valueOf(total))
                     .build();
 
-            boolean isOrderSaved = orderService.saveOrder(orderDTO);
-            if (isOrderSaved) {
-                req.getSession().setAttribute("flash_success", "Order Placed successfully!");
-                itemService.deductItemQuantity(itemQuantity);
-                customerService.addUnitsConsumed(customerId, totalQuantity);
+            boolean isBillSaved = billService.saveBill(billDTO);
+            if (isBillSaved) {
+                req.getSession().setAttribute("flash_success", "Bill Created successfully!");
             } else {
-                req.getSession().setAttribute("flash_error", "Failed to place the order");
+                req.getSession().setAttribute("flash_error", "Failed to create the bill");
             }
         } else {
             req.getSession().setAttribute("flash_error", "Missing or not valid data!");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/order");
+        resp.sendRedirect(req.getContextPath() + "/bill/create");
     }
 }
