@@ -35,6 +35,13 @@
         <button id="printButton" onclick="window.print()" class="btn btn-primary mr-2">
             <i class="fa-solid fa-print"></i> Print Invoice
         </button>
+        <form action="<%= request.getContextPath() %>/bill/sendEmail" method="post" style="display:inline;">
+            <input type="hidden" name="billId" value="<%= bill.getBillId() %>">
+            <input type="hidden" name="customerEmail" value="<%= customer.getEmail() %>">
+            <button type="submit" class="btn btn-accent">
+                <i class="fa-solid fa-envelope"></i> Send Email
+            </button>
+        </form>
     </div>
 </div>
 
