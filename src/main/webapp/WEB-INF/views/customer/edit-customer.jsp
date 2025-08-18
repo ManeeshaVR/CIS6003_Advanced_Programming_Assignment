@@ -3,6 +3,14 @@
     CustomerDTO customer = (CustomerDTO) request.getAttribute("customer");
 %>
 
+<div class="flex justify-between px-8 py-4">
+    <div>
+        <a id="backButton" href="<%= request.getContextPath() %>/customer" class="btn btn-neutral">
+            <i class="fa-solid fa-arrow-left"></i>Back
+        </a>
+    </div>
+</div>
+
 <div class="flex items-center justify-center">
     <div class="w-full max-w-xl px-4 py-8 shadow-lg rounded-lg">
         <h1 class="text-3xl font-bold mb-6 text-center">Edit Customer</h1>

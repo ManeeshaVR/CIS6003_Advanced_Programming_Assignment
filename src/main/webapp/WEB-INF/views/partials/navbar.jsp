@@ -4,7 +4,8 @@
         <a class="text-xl font-bold"><i class="fa-solid fa-book-open mr-2 text-lg text-primary"></i>Pahana Edu</a>
     </div>
     <div class="flex-none gap-4">
-        <span class="font-semibold">Admin</span>
-        <a href="#" class="btn btn-sm btn-error">Logout</a>
+        <i class="fa-solid fa-circle-user mr-2 text-lg"></i>
+        <span class="font-semibold mr-2">Admin</span>
+        <a href="<%= request.getContextPath() %>/logout" class="btn btn-sm btn-error">Logout</a>
     </div>
 </div>
