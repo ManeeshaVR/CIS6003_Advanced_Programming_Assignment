@@ -11,11 +11,11 @@
     <div class="card-body">
         <div class="flex justify-between items-center mb-4">
             <h2 class="card-title">Items</h2>
-            <input type="text" placeholder="Search items..." class="input input-bordered w-64"/>
+            <input id="itemSearch" type="text" placeholder="Search items..." class="input input-bordered w-64"/>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="table table-zebra table-md">
+            <table class="table table-zebra table-md" id="itemTable">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -51,7 +51,7 @@
                             <a href="<%= request.getContextPath() %>/item/edit?code=<%= item.getItemCode() %>"
                                class="btn btn-sm btn-primary btn-outline"
                             >Edit</a>
-                            <form method="post" action="<%= request.getContextPath() %>/item/delete?code=<%= item.getItemCode() %>" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <form method="post" action="<%= request.getContextPath() %>/item/delete?code=<%= item.getItemCode() %>" onsubmit="return confirmItemDelete(event);">
                                 <button type="submit" class="btn btn-sm btn-secondary btn-outline">Delete</button>
                             </form>
                         </div>
@@ -68,3 +68,46 @@
 </div>
 
 <%@ include file="../item/add-item.jsp" %>
+
+<script>
+    function confirmItemDelete(event) {
+        const form = event.target;
+
+        Swal.fire({
+            title: "Are you sure you want to delete this item?",
+            icon: "warning",
+            theme: 'dark',
+            showCancelButton: true,
+            confirmButtonColor: "#0bb82b",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+
+    const itemSearch = document.getElementById('itemSearch');
+    const itemTable = document.getElementById('itemTable').getElementsByTagName('tbody')[0];
+
+    itemSearch.addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        const rows = itemTable.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+
+            for (let j = 0; j < cells.length - 1; j++) {
+                if (cells[j].textContent.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = match ? '' : 'none';
+        }
+    });
+</script>

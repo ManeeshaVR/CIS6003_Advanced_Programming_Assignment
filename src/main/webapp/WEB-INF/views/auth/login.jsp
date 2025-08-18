@@ -19,15 +19,15 @@
                 <form action="<%= request.getContextPath() %>/login" method="post" class="space-y-4">
                     <div class="form-control">
                         <label class="label" for="username">
-                            <span class="label-text">Username</span>
+                            <span class="label-text"><i class="fa fa-user mr-2"></i> Username</span>
                         </label>
-                        <input type="text" id="username" name="username" class="input input-bordered" required />
+                        <input type="text" id="username" name="username" class="input input-bordered mt-2" required />
                     </div>
                     <div class="form-control">
                         <label class="label" for="password">
-                            <span class="label-text">Password</span>
+                            <span class="label-text"><i class="fa fa-lock mr-2"></i> Password</span>
                         </label>
-                        <input type="password" id="password" name="password" class="input input-bordered" required />
+                        <input type="password" id="password" name="password" class="input input-bordered mt-2" required />
                     </div>
                     <div class="form-control mt-6">
                         <button type="submit" class="btn btn-primary w-full">Login</button>

@@ -1,8 +1,6 @@
 <%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.customer.dto.CustomerDTO" %>
-<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.BillDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.item.dto.ItemDTO" %>
-<%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.BillItemDTO" %>
 <%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.InvoiceDTO" %>
 <%@ page import="lk.pahana.edu.pahana_edu_billing_system.business.bill.dto.InvoiceItemDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -54,7 +52,7 @@
             </div>
             <div class="ml-auto">
                 <div class="w-16 h-16 rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-cart-shopping text-pink-400 text-3xl"></i>
+                    <i class="fa-solid fa-clone text-pink-400 text-3xl"></i>
                 </div>
             </div>
         </div>
