@@ -53,6 +53,9 @@ public class CreateBillServlet extends HttpServlet {
         // Prepare to collect bill items
         List<BillItemDTO> billItems = new ArrayList<>();
 
+        Map<String, Integer> itemQuantity = new HashMap<>();
+        int totalQuantity = 0;
+
         int index = 0;
         while (true) {
             String code = req.getParameter("items[" + index + "].code");
@@ -73,6 +76,9 @@ public class CreateBillServlet extends HttpServlet {
                         .unitPrice(price)
                         .build();
 
+                itemQuantity.put(code, quantity);
+                totalQuantity += quantity;
+
                 billItems.add(item);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -90,6 +96,8 @@ public class CreateBillServlet extends HttpServlet {
 
             boolean isBillSaved = billService.saveBill(billDTO);
             if (isBillSaved) {
+                itemService.deductItemQuantity(itemQuantity);
+                customerService.addUnitsConsumed(customerId, totalQuantity);
                 req.getSession().setAttribute("flash_success", "Bill Created successfully!");
                 resp.sendRedirect(req.getContextPath() + "/bill/generate?id=" + billDTO.getBillId());
             } else {

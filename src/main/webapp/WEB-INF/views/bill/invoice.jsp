@@ -8,7 +8,7 @@
     CustomerDTO customer = (CustomerDTO) request.getAttribute("customer");
 %>
 
-<html lang="en" data-theme="sunset">
+<html lang="en" data-theme="night">
 <%@ include file="../partials/header.jsp" %>
 <head>
     <style>
@@ -18,6 +18,10 @@
             }
 
             #backButton {
+                display: none;
+            }
+
+            #sendButton {
                 display: none;
             }
         }
@@ -38,7 +42,7 @@
         <form action="<%= request.getContextPath() %>/bill/sendEmail" method="post" style="display:inline;">
             <input type="hidden" name="billId" value="<%= bill.getBillId() %>">
             <input type="hidden" name="customerEmail" value="<%= customer.getEmail() %>">
-            <button type="submit" class="btn btn-accent">
+            <button id="sendButton" type="submit" class="btn btn-accent">
                 <i class="fa-solid fa-envelope"></i> Send Email
             </button>
         </form>
