@@ -1,0 +1,84 @@
+package lk.pahana.edu.pahana_edu_billing_system.business.customer.service.impl;
+
+import lk.pahana.edu.pahana_edu_billing_system.business.customer.dto.CustomerDTO;
+import lk.pahana.edu.pahana_edu_billing_system.business.customer.mapper.CustomerMapper;
+import lk.pahana.edu.pahana_edu_billing_system.business.customer.model.Customer;
+import lk.pahana.edu.pahana_edu_billing_system.business.customer.service.CustomerService;
+import lk.pahana.edu.pahana_edu_billing_system.persistence.customer.dao.CustomerDAO;
+import lk.pahana.edu.pahana_edu_billing_system.persistence.customer.dao.impl.CustomerDAOImpl;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class CustomerServiceImpl implements CustomerService {
+
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+
+    @Override
+    public boolean saveCustomer(CustomerDTO customerDTO) {
+        customerDTO.setCustomerId(UUID.randomUUID().toString());
+        customerDTO.setRegistrationDate(LocalDate.now());
+        customerDTO.setUnitsConsumed(0);
+        return customerDAO.save(CustomerMapper.toEntity(customerDTO));
+    }
+
+    @Override
+    public List<CustomerDTO> getAllCustomers() {
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        List<Customer> customerList = customerDAO.findAll();
+
+        for (Customer customer : customerList) {
+            customerDTOList.add(CustomerMapper.toDTO(customer));
+        }
+        return customerDTOList;
+    }
+
+    @Override
+    public CustomerDTO getCustomerById(String id) {
+        return CustomerMapper.toDTO(customerDAO.findById(id));
+    }
+
+    @Override
+    public boolean updateCustomer(String id, CustomerDTO customerDTO) {
+        return customerDAO.update(id, CustomerMapper.toEntity(customerDTO));
+    }
+
+    @Override
+    public boolean deleteCustomer(String id) {
+        return customerDAO.delete(id);
+    }
+
+    @Override
+    public void addUnitsConsumed(String id, int units) {
+        customerDAO.addUnitsConsumed(id, units);
+    }
+
+    @Override
+    public int getCustomerCount() {
+        return customerDAO.getCount();
+    }
+
+    @Override
+    public List<CustomerDTO> getTopCustomers() {
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        List<Customer> customerList = customerDAO.findTopCustomers();
+
+        for (Customer customer : customerList) {
+            customerDTOList.add(CustomerMapper.toDTO(customer));
+        }
+        return customerDTOList;
+    }
+
+    @Override
+    public boolean existsCustomerByEmail(String email, String id) {
+        return customerDAO.existsByEmail(email, id);
+    }
+
+    @Override
+    public boolean existsCustomerByMobileNumber(String mobileNumber, String id) {
+        return customerDAO.existsByMobileNumber(mobileNumber, id);
+    }
+
+}
